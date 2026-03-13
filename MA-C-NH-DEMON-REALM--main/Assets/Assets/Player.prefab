@@ -15,9 +15,11 @@ GameObject:
   - component: {fileID: 4553603268136481989}
   - component: {fileID: 7466914744813154747}
   - component: {fileID: 1622715165210503121}
-  m_Layer: 0
+  - component: {fileID: 5144416140658527530}
+  - component: {fileID: 4461388019589446798}
+  m_Layer: 3
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31,8 +33,8 @@ Transform:
   m_GameObject: {fileID: 271683339600482379}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.947, y: 0.426, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 2.7814925, y: -0.8448487, z: 0}
+  m_LocalScale: {x: -1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6213535909341802628}
@@ -116,7 +118,7 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 4.5
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 7b3d2cedce805ae4c83cb10b842285f7, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -181,12 +183,21 @@ MonoBehaviour:
   dashSpeed: 20
   dashDuration: 0.2
   dashCooldown: 1
+  dashIgnoreLayers:
+    serializedVersion: 2
+    m_Bits: 768
+  knockbackLockTime: 0.12
+  blockHoldThreshold: 0.18
   wallCheckLeft: {fileID: 8184158673910272469}
   wallCheckRight: {fileID: 966551580388531659}
   wallCheckRadius: 0.3
   wallSlideSpeed: 2
   wallSnapDistance: 0.5
   wallOffset: 0.25
+  wallJumpHorizontalForce: 12
+  wallJumpVerticalForce: 14
+  wallJumpCooldown: 0.15
+  wallJumpInputLockTime: 0.1
   groundCheck: {fileID: 6213535909341802628}
   checkRadius: 0.2
   groundLayer:
@@ -230,19 +241,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9bfd49f5e20f034c9d4016b20b75478, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
-  anim: {fileID: 7466914744813154747}
-  movementScript: {fileID: 4553603268136481989}
-  comboResetTime: 0.8
+  attackCooldown: 0.25
+  airAttackCooldown: 0.3
+  parryWindow: 0.25
+  parryCooldown: 0.4
   attackPoint: {fileID: 4895118352957370695}
   attackRange: 0.5
   enemyLayers:
     serializedVersion: 2
     m_Bits: 256
   attackDamage: 20
-  attack1Duration: 0.66
-  attack2Duration: 0.66
-  attack3Duration: 1
-  inputBufferWindow: 0.25
+--- !u!114 &5144416140658527530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 271683339600482379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fbda85c98fc644468f12a3ff862cf9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
+  maxHealth: 200
+  currentHealth: 50
+  invincibleTimeAfterHit: 0.2
+  hurtBlinkDuration: 1.2
+  hurtBlinkInterval: 0.12
+  knockbackForceX: 6
+  knockbackForceY: 2
+  healthBar: {fileID: 0}
+--- !u!114 &4461388019589446798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 271683339600482379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6115937203c0384468afbf24a24c6eed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerRespawn
+  currentCheckpoint: {x: 2.83, y: 1.93}
+  pitDamage: 20
+  respawnHealthPercent: 100
 --- !u!1 &2848803097951048195
 GameObject:
   m_ObjectHideFlags: 0
@@ -252,7 +295,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8184158673910272469}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: WallCheckLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -283,7 +326,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 966551580388531659}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: WallCheckRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -314,7 +357,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6213535909341802628}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -345,7 +388,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4895118352957370695}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: AttackPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}

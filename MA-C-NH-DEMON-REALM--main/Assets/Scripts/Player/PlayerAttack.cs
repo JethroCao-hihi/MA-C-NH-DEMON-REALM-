@@ -2,197 +2,239 @@
 
 public class PlayerAttack : MonoBehaviour
 {
-    [Header("Tham chieu")]
-    public Animator anim;
-    public PlayerMovement movementScript;
-    private Rigidbody2D rb;
+    #region === VARIABLES ===
 
-    [Header("Cai dat Combo")]
-    public float comboResetTime = 1f;
-    private int comboStep = 0;
-    private float lastAttackTime = 0f;
+    [Header("Attack Settings - Hollow Knight Style")]
+    [Tooltip("Time between attacks (lower = faster)")]
+    [SerializeField] private float attackCooldown = 0.25f;
 
-    [Header("Cai dat sat thuong")]
-    public Transform attackPoint;
-    public float attackRange = 0.5f;
-    public LayerMask enemyLayers;
-    public int attackDamage = 20;
+    [Header("Jump Attack")]
+    [SerializeField] private float airAttackCooldown = 0.3f;
 
-    [Header("Thoi gian Animation (Khoa di chuyen)")]
-    public float attack1Duration = 0.3f;
-    public float attack2Duration = 0.35f;
-    public float attack3Duration = 0.4f;
+    [Header("Parry / Barry")]
+    [Tooltip("Thời gian cửa sổ parry (giây)")]
+    [SerializeField] private float parryWindow = 0.25f;
+    [Tooltip("Cooldown sau khi parry (giây)")]
+    [SerializeField] private float parryCooldown = 0.4f;
 
-    [Header("Input Buffer Settings")]
-    [Tooltip("Thời gian cho phép nhập input trước khi animation hiện tại kết thúc")]
-    public float inputBufferWindow = 0.25f;
+    [Header("Damage Settings")]
+    [SerializeField] private Transform attackPoint;
+    [SerializeField] private float attackRange = 0.5f;
+    [SerializeField] private LayerMask enemyLayers;
+    [SerializeField] private int attackDamage = 20;
 
-    // Bộ đếm thời gian mở khóa di chuyển thay cho Coroutine
-    private float unlockMovementTime = 0f;
+    // Cached Components
+    private Animator anim;
+    private PlayerMovement movement;
 
-    // Thời điểm animation hiện tại kết thúc
-    private float currentAttackEndTime = 0f;
+    // State
+    private float lastAttackTime = -999f;
+    private float lastAirAttackTime = -999f;
+    private int attackIndex = 1;
 
-    // Input Buffer - lưu lại input nếu người chơi bấm trong lúc đang đánh
-    private bool hasBufferedInput = false;
+    private float lastParryTime = -999f;
+    private bool isParrying;
 
-    // Thời gian tối thiểu giữa các đòn (để animator kịp chuyển state)
-    private float minTimeBetweenAttacks = 0.08f;
-    private float lastAttackExecuteTime = 0f;
+    // Animator param safety
+    private int isParryingHash;
+    private bool hasIsParryingParam;
 
-    void Start()
+    private int parryTriggerHash;
+    private bool hasParryTrigger;
+    private int attackAirTriggerHash;
+    private bool hasAttackAirTrigger;
+
+    private int attack1TriggerHash;
+    private int attack2TriggerHash;
+    private int attack3TriggerHash;
+    private bool hasAttack1Trigger;
+    private bool hasAttack2Trigger;
+    private bool hasAttack3Trigger;
+
+    #endregion
+
+    #region === PROPERTIES ===
+
+    public bool IsParrying => isParrying;
+
+    #endregion
+
+    #region === UNITY CALLBACKS ===
+
+    private void Awake()
     {
         anim = GetComponent<Animator>();
-        movementScript = GetComponent<PlayerMovement>();
-        rb = GetComponent<Rigidbody2D>();
+        movement = GetComponent<PlayerMovement>();
+
+        // Cache hashes
+        isParryingHash = Animator.StringToHash("IsParrying");
+        parryTriggerHash = Animator.StringToHash("Parry");
+        attackAirTriggerHash = Animator.StringToHash("AttackAir");
+        attack1TriggerHash = Animator.StringToHash("Attack1");
+        attack2TriggerHash = Animator.StringToHash("Attack2");
+        attack3TriggerHash = Animator.StringToHash("Attack3");
+
+        // Cache param/trigger existence
+        hasIsParryingParam = AnimatorHasParam(anim, isParryingHash, AnimatorControllerParameterType.Bool);
+        hasParryTrigger = AnimatorHasParam(anim, parryTriggerHash, AnimatorControllerParameterType.Trigger);
+        hasAttackAirTrigger = AnimatorHasParam(anim, attackAirTriggerHash, AnimatorControllerParameterType.Trigger);
+        hasAttack1Trigger = AnimatorHasParam(anim, attack1TriggerHash, AnimatorControllerParameterType.Trigger);
+        hasAttack2Trigger = AnimatorHasParam(anim, attack2TriggerHash, AnimatorControllerParameterType.Trigger);
+        hasAttack3Trigger = AnimatorHasParam(anim, attack3TriggerHash, AnimatorControllerParameterType.Trigger);
     }
 
-    void Update()
+    private void Update()
     {
-        // 1. Tự động mở khóa di chuyển khi chạy hết thời gian chờ của animation
-        if (movementScript.IsAttacking && Time.time >= unlockMovementTime)
-        {
-            movementScript.SetAttacking(false);
+        if (movement == null || movement.IsDead) return;
+        if (movement.IsDashing) return;
 
-            // Nếu combo đã hết (sau đòn 3 hoặc hết thời gian combo) thì reset
-            if (comboStep >= 3 && !hasBufferedInput)
-            {
-                comboStep = 0;
-            }
-        }
+        bool attackPressed = Input.GetKeyDown(KeyCode.J) || Input.GetMouseButtonDown(0);
 
-        // 2. Reset combo nếu ngừng chém quá lâu VÀ không còn đang đánh
-        if (Time.time - lastAttackTime > comboResetTime && comboStep > 0 && !movementScript.IsAttacking)
-        {
-            comboStep = 0;
-            hasBufferedInput = false;
-        }
+        // Attack (nhấn) - không cho tấn công khi đang block
+        if (movement.IsBlocking) return;
 
-        // 3. Nhận input tấn công
-        if (Input.GetKeyDown(KeyCode.J) || Input.GetMouseButtonDown(0))
+        if (attackPressed)
         {
-            HandleAttackInput();
-        }
-
-        // 4. Xử lý buffered input - thực hiện đòn tiếp theo khi animation gần kết thúc
-        if (hasBufferedInput && CanExecuteBufferedAttack())
-        {
-            ExecuteBufferedAttack();
-        }
-    }
-
-    private void HandleAttackInput()
-    {
-        if (movementScript == null || movementScript.IsBlocking)
-        {
-            return;
-        }
-
-        // Nếu KHÔNG đang đánh -> thực hiện đòn ngay lập tức
-        if (!movementScript.IsAttacking)
-        {
-            PerformAttack();
-        }
-        // Nếu ĐANG đánh và combo chưa hết -> lưu input vào buffer
-        else if (comboStep < 3)
-        {
-            hasBufferedInput = true;
+            if (movement.IsGrounded)
+                TryGroundAttack();
+            else
+                TryAirAttack();
         }
     }
 
-    private bool CanExecuteBufferedAttack()
-    {
-        // Có thể thực hiện buffered attack khi:
-        // 1. Animation hiện tại còn lại ít hơn inputBufferWindow
-        // 2. Đã qua thời gian tối thiểu giữa các đòn
-        float timeRemaining = currentAttackEndTime - Time.time;
-        bool inBufferWindow = timeRemaining <= inputBufferWindow && timeRemaining > 0;
-        bool passedMinTime = Time.time - lastAttackExecuteTime >= minTimeBetweenAttacks;
+    #endregion
 
-        return inBufferWindow && passedMinTime;
+    #region === PUBLIC API ===
+
+    // PlayerMovement sẽ gọi khi phát hiện tap (nhấn nhanh) để parry
+    public void RequestParry()
+    {
+        if (movement == null || movement.IsDead) return;
+        if (movement.IsDashing) return;
+
+        TryParry();
     }
 
-    private void ExecuteBufferedAttack()
-    {
-        hasBufferedInput = false;
-        PerformAttack();
-    }
+    #endregion
 
-    private void PerformAttack()
-    {
-        if (movementScript == null)
-        {
-            return;
-        }
+    #region === ATTACK LOGIC ===
 
-        if (movementScript.IsBlocking)
-        {
-            return;
-        }
+    private void TryGroundAttack()
+    {
+        if (Time.time < lastAttackTime + attackCooldown) return;
 
         lastAttackTime = Time.time;
-        lastAttackExecuteTime = Time.time;
-        comboStep++;
 
-        // Nếu chém lố 3 nhát thì tự quay về nhát 1
-        if (comboStep > 3) comboStep = 1;
+        // Reset triggers nếu có tồn tại
+        if (hasAttack1Trigger) anim.ResetTrigger(attack1TriggerHash);
+        if (hasAttack2Trigger) anim.ResetTrigger(attack2TriggerHash);
+        if (hasAttack3Trigger) anim.ResetTrigger(attack3TriggerHash);
 
-        movementScript.SetAttacking(true);
-
-        if (rb != null)
+        int triggerToFire = attackIndex switch
         {
-            // Unity 2023+ dùng linearVelocity
-            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
-        }
+            1 => attack1TriggerHash,
+            2 => attack2TriggerHash,
+            _ => attack3TriggerHash
+        };
 
-        float currentAnimDuration = 0f;
-
-        if (comboStep == 1)
+        bool canFire = attackIndex switch
         {
-            anim.SetTrigger("Attack1");
-            currentAnimDuration = attack1Duration;
-        }
-        else if (comboStep == 2)
-        {
-            anim.SetTrigger("Attack2");
-            currentAnimDuration = attack2Duration;
-        }
-        else if (comboStep == 3)
-        {
-            anim.SetTrigger("Attack3");
-            currentAnimDuration = attack3Duration;
-        }
+            1 => hasAttack1Trigger,
+            2 => hasAttack2Trigger,
+            _ => hasAttack3Trigger
+        };
 
-        // Đặt mốc thời gian để mở khóa di chuyển dựa trên đòn đánh hiện tại
-        unlockMovementTime = Time.time + currentAnimDuration;
+        if (canFire)
+            anim.SetTrigger(triggerToFire);
 
-        // Lưu thời điểm animation kết thúc để tính input buffer
-        currentAttackEndTime = Time.time + currentAnimDuration;
+        attackIndex++;
+        if (attackIndex > 3) attackIndex = 1;
+
+        DealDamage();
     }
 
-    // --- CÁC HÀM VẼ GIZMOS VÀ DEAL DAMAGE GIỮ NGUYÊN NHƯ CỦA BẠN ---
+    private void TryAirAttack()
+    {
+        if (Time.time < lastAirAttackTime + airAttackCooldown) return;
+
+        lastAirAttackTime = Time.time;
+
+        if (hasAttackAirTrigger)
+        {
+            anim.ResetTrigger(attackAirTriggerHash);
+            anim.SetTrigger(attackAirTriggerHash);
+        }
+
+        DealDamage();
+    }
+
+    private void TryParry()
+    {
+        if (Time.time < lastParryTime + parryCooldown) return;
+
+        lastParryTime = Time.time;
+
+        if (hasParryTrigger)
+        {
+            anim.ResetTrigger(parryTriggerHash);
+            anim.SetTrigger(parryTriggerHash);
+        }
+
+        // Có thể dùng bool để transition nếu animator cần
+        isParrying = true;
+        if (hasIsParryingParam)
+            anim.SetBool(isParryingHash, true);
+
+        CancelInvoke(nameof(EndParryWindow));
+        Invoke(nameof(EndParryWindow), parryWindow);
+    }
+
+    private void EndParryWindow()
+    {
+        isParrying = false;
+        if (hasIsParryingParam && anim != null)
+            anim.SetBool(isParryingHash, false);
+    }
+
     public void DealDamage()
     {
         if (attackPoint == null) return;
 
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
+
+        foreach (var hit in hits)
+            hit.SendMessage("TakeDamage", attackDamage, SendMessageOptions.DontRequireReceiver);
     }
 
+    #endregion
+
+    #region === ANIMATOR HELPERS ===
+
+    private static bool AnimatorHasParam(Animator animator, int nameHash, AnimatorControllerParameterType type)
+    {
+        if (animator == null) return false;
+
+        foreach (var p in animator.parameters)
+        {
+            if (p.type == type && p.nameHash == nameHash)
+                return true;
+        }
+
+        return false;
+    }
+
+    #endregion
+
+    #region === GIZMOS ===
+
+#if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
-        if (attackPoint != null)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(attackPoint.position, attackRange);
-        }
+        if (attackPoint == null) return;
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
+#endif
 
-    private void OnDrawGizmos()
-    {
-        if (attackPoint != null && Application.isPlaying && movementScript != null && movementScript.IsAttacking)
-        {
-            Gizmos.color = new Color(1f, 0f, 0f, 0.5f);
-            Gizmos.DrawSphere(attackPoint.position, attackRange);
-        }
-    }
+    #endregion
 }

@@ -1,352 +1,544 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("Di chuyển & Nhảy")]
-    public float moveSpeed = 7f;
-    public float jumpForce = 14f;
+    #region === VARIABLES ===
 
-    [Header("Lướt (Dash)")]
-    public float dashSpeed = 20f;
-    public float dashDuration = 0.2f;
-    public float dashCooldown = 1f;
+    [Header("Movement & Jump")]
+    [SerializeField] private float moveSpeed = 7f;
+    [SerializeField] private float jumpForce = 14f;
+
+    [Header("Dash")]
+    [SerializeField] private float dashSpeed = 20f;
+    [SerializeField] private float dashDuration = 0.2f;
+    [SerializeField] private float dashCooldown = 1f;
+
+    [Header("Dash - Xuyên qua")]
+    [Tooltip("Những layer sẽ bị bỏ collision với Player trong lúc dash (ví dụ: Enemy, Bullet)")]
+    [SerializeField] private LayerMask dashIgnoreLayers;
+
+    [Header("Knockback")]
+    [SerializeField] private float knockbackLockTime = 0.12f;
+
+    [Header("Block / Parry Input")]
+    [Tooltip("Nhấn nhanh rồi thả < ngưỡng này => Parry. Giữ lâu hơn => Block")]
+    [SerializeField] private float blockHoldThreshold = 0.18f;
+
+    [Header("Wall Slide")]
+    [SerializeField] private Transform wallCheckLeft;
+    [SerializeField] private Transform wallCheckRight;
+    [SerializeField] private float wallCheckRadius = 0.3f;
+    [SerializeField] private float wallSlideSpeed = 1f;
+    [SerializeField] private float wallSnapDistance = 1f;
+    [SerializeField, Range(0f, 0.5f)] private float wallOffset = 0.02f;
+
+    [Header("Wall Jump")]
+    [SerializeField] private float wallJumpHorizontalForce = 12f;
+    [SerializeField] private float wallJumpVerticalForce = 14f;
+    [SerializeField] private float wallJumpCooldown = 0.15f;
+    [SerializeField] private float wallJumpInputLockTime = 0.1f;
+
+    [Header("Collision Check")]
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private float checkRadius = 0.2f;
+    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private LayerMask wallLayer;
+
+    // Cached Components
+    private Rigidbody2D rb;
+    public Animator anim;
+    private Collider2D playerCollider;
+    private PlayerHealth health;
+    private PlayerAttack attack;
+
+    // State
+    private float horizontalInput;
+    private float originalGravity;
+
     private bool canDash = true;
-    private bool isDashing = false;
+    private bool canWallSlide = true;
 
-    [Header("Trượt tường (Wall Slide)")]
-    public Transform wallCheckLeft;  // Kéo cục WallCheckLeft vào đây
-    public Transform wallCheckRight; // Kéo cục WallCheckRight vào đây
-    public float wallCheckRadius = 0.3f; // Tăng lên để phát hiện tường dễ hơn
-    public float wallSlideSpeed = 1f; // Tốc độ trượt xuống
-    public float wallSnapDistance = 1f; // Khoảng cách tối đa để snap vào tường (tăng lên)
-    [Tooltip("Khoảng cách từ nhân vật đến tường khi bám (0 = sát tường hoàn toàn)")]
-    [Range(0f, 0.5f)]
-    public float wallOffset = 0.02f; // Khoảng cách tùy chỉnh từ nhân vật đến tường
+    private bool isDashing;
+    private bool isAttacking;
+    private bool isBlocking;
+
+    private bool isGrounded;
     private bool isWallSliding;
-    private bool isHoldingWall = false; // Đang giữ bám tường
-    private int wallDirection = 0; // -1 = tường bên trái, 1 = tường bên phải, 0 = không chạm tường
+    private bool isWallJumping;
 
-    [Header("Kiểm tra va chạm")]
-    public Transform groundCheck;
-    public float checkRadius = 0.2f;
-    public LayerMask groundLayer;
-    public LayerMask wallLayer;
+    private float wallJumpInputLockTimer;
+    private int wallDirection; // -1 left, 1 right, 0 none
 
-    [Header("Trạng thái chiến đấu")]
-    private bool isAttacking = false;
-    private bool isBlocking = false;
+    private static readonly Vector3 ScaleRight = new Vector3(1, 1, 1);
+    private static readonly Vector3 ScaleLeft = new Vector3(-1, 1, 1);
+    private bool isFacingRight = true;
 
-    // Properties để các script khác có thể đọc trạng thái
+    private float knockbackLockTimer;
+
+    // Block/Parry input state
+    private bool blockKeyHeld;
+    private float blockKeyDownTime;
+    private bool blockHoldActivated;
+
+    // WaitForSeconds cache
+    private WaitForSeconds dashDurationWait;
+    private WaitForSeconds dashCooldownWait;
+    private WaitForSeconds wallJumpCooldownWait;
+
+    #endregion
+
+    #region === PROPERTIES ===
+
     public bool IsAttacking => isAttacking;
     public bool IsBlocking => isBlocking;
     public bool IsDashing => isDashing;
     public bool IsGrounded => isGrounded;
+    public bool IsWallSliding => isWallSliding;
+    public bool IsDead => health != null && health.IsDead;
 
-    [Header("Tham chiếu")]
-    public Animator anim;
-    private Rigidbody2D rb;
-    private SpriteRenderer spriteRenderer;
-    private Collider2D playerCollider; // Thêm reference đến collider
-    private float horizontalInput;
-    private bool isFacingRight = true;
-    private bool isGrounded;
-    private bool isHangingOnWall = false;
-    private float originalGravity;
-    
-    void Start()
+    #endregion
+
+    #region === UNITY CALLBACKS ===
+
+    private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        playerCollider = GetComponent<Collider2D>(); // Lấy collider của nhân vật
-        originalGravity = rb.gravityScale;
+        playerCollider = GetComponent<Collider2D>();
+        health = GetComponent<PlayerHealth>();
+        attack = GetComponent<PlayerAttack>();
+
+        if (rb != null)
+            originalGravity = rb.gravityScale;
+
+        dashDurationWait = new WaitForSeconds(dashDuration);
+        dashCooldownWait = new WaitForSeconds(dashCooldown);
+        wallJumpCooldownWait = new WaitForSeconds(wallJumpCooldown);
     }
 
-    void Update()
+    private void Update()
     {
-        // Nếu đang lướt, đang chém, hoặc đã chết thì không cho phép làm gì khác
-        if (isDashing || isAttacking) return;
+        if (IsDead) return;
 
-        horizontalInput = Input.GetAxisRaw("Horizontal");
+        if (knockbackLockTimer > 0f)
+            knockbackLockTimer -= Time.deltaTime;
 
-        // 1. Nhảy
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        UpdateBlockParryInput();
+
+        // Chặn input khác khi dash/attack/block
+        if (isDashing || isAttacking)
         {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-        }
-        
-        // Nhảy tường (Wall Jump) - khi đang bám tường và nhấn Jump
-        if (Input.GetButtonDown("Jump") && isWallSliding)
-        {
-            // Nhảy ra khỏi tường theo hướng ngược lại
-            float wallJumpDirection = -wallDirection;
-            rb.linearVelocity = new Vector2(wallJumpDirection * moveSpeed, jumpForce * 0.8f);
-            isWallSliding = false;
-            isHoldingWall = false;
-            rb.gravityScale = originalGravity;
+            UpdateAnimations();
+            return;
         }
 
-        // 2. Lướt (Phím K hoặc Shift)
-        if ((Input.GetKeyDown(KeyCode.K) || Input.GetKeyDown(KeyCode.LeftShift)) && canDash)
-        {
-            StartCoroutine(Dash());
-        }
-
-        // 3. Đỡ đòn (Giữ phím L hoặc Chuột phải) - GIỮ NÚT để block liên tục
-        bool isHoldingBlock = Input.GetKey(KeyCode.L) || Input.GetMouseButton(1);
-        
-        // Cập nhật trạng thái block dựa trên việc giữ nút
-        isBlocking = isHoldingBlock;
-        
-        // Dừng di chuyển khi đang block
         if (isBlocking)
         {
-            rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
+            if (rb != null)
+                rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
+
+            UpdateAnimations();
+            return;
         }
 
+        UpdateWallJumpTimer();
+        HandleInput();
         CheckWallSlide();
         Flip();
         UpdateAnimations();
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-        if (isDashing || isAttacking || isBlocking) return;
+        if (IsDead || isDashing || isAttacking || isBlocking) return;
+        if (rb == null) return;
 
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, groundLayer);
+        // Ground check
+        if (groundCheck != null)
+            isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, groundLayer);
 
-        // Di chuyển bình thường
-        if (!isWallSliding)
-        {
+        if (isGrounded) canWallSlide = true;
+
+        if (knockbackLockTimer > 0f)
+            return;
+
+        // Movement
+        if (!isWallSliding && !isWallJumping)
             rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
+    }
+
+    #endregion
+
+    #region === BLOCK / PARRY INPUT ===
+
+    private void UpdateBlockParryInput()
+    {
+        bool down = Input.GetKeyDown(KeyCode.L) || Input.GetMouseButtonDown(1);
+        bool held = Input.GetKey(KeyCode.L) || Input.GetMouseButton(1);
+        bool up = Input.GetKeyUp(KeyCode.L) || Input.GetMouseButtonUp(1);
+
+        if (down)
+        {
+            blockKeyHeld = true;
+            blockKeyDownTime = Time.time;
+            blockHoldActivated = false;
+            // Chưa set block ngay, đợi vượt threshold
+        }
+
+        if (blockKeyHeld && held && !blockHoldActivated)
+        {
+            if (Time.time - blockKeyDownTime >= blockHoldThreshold)
+            {
+                blockHoldActivated = true;
+                isBlocking = true;
+            }
+        }
+
+        // Chỉ xử lý "up" nếu đã từng nhận "down" trước đó
+        if (up && blockKeyHeld)
+        {
+            float heldTime = Time.time - blockKeyDownTime;
+
+            // Nếu chưa kích hoạt hold block và thả nhanh => parry
+            if (!blockHoldActivated && heldTime < blockHoldThreshold)
+            {
+                if (attack != null)
+                    attack.RequestParry();
+            }
+
+            // Thả ra luôn tắt block
+            isBlocking = false;
+            blockKeyHeld = false;
+            blockHoldActivated = false;
+            blockKeyDownTime = 0f;
+        }
+
+        // Nếu đang block mà không còn giữ phím (trường hợp mất focus) thì tắt
+        if (isBlocking && !held)
+        {
+            isBlocking = false;
+            blockKeyHeld = false;
+            blockHoldActivated = false;
         }
     }
 
-    // --- PHƯƠNG THỨC PUBLIC CHO CÁC SCRIPT KHÁC ---
-    
-    /// <summary>
-    /// Đặt trạng thái tấn công (được gọi từ PlayerAttack)
-    /// </summary>
-    public void SetAttacking(bool value)
+    #endregion
+
+    #region === PUBLIC API (for other scripts) ===
+
+    public void SetAttacking(bool value) => isAttacking = value;
+
+    // Giữ lại để script khác dùng, nhưng hiện isBlocking được điều khiển bởi input tap/hold
+    public void SetBlocking(bool value) => isBlocking = value;
+
+    public void ApplyKnockback(Vector2 velocity)
     {
-        isAttacking = value;
+        if (rb == null) return;
+        if (IsDead) return;
+        if (isDashing) return;
+
+        rb.linearVelocity = velocity;
+        knockbackLockTimer = knockbackLockTime;
     }
 
-    /// <summary>
-    /// Đặt trạng thái block (nếu cần điều khiển từ script khác)
-    /// </summary>
-    public void SetBlocking(bool value)
+    public void Respawn()
     {
-        isBlocking = value;
-    }
-
-    // --- CÁC HÀM XỬ LÝ KỸ NĂNG ---
-
-    private IEnumerator Dash()
-    {
-        canDash = false;
-        isDashing = true;
-        anim.SetTrigger("Dash");
-
-        // Lướt đi với vận tốc cao (loại bỏ trọng lực tạm thời)
-        float dashGravity = rb.gravityScale;
-        rb.gravityScale = 0f;
-        rb.linearVelocity = new Vector2(transform.localScale.x * dashSpeed, 0f);
-
-        yield return new WaitForSeconds(dashDuration);
-
-        // Hết thời gian lướt, trả lại trạng thái cũ
-        rb.gravityScale = dashGravity;
+        isAttacking = false;
+        isBlocking = false;
         isDashing = false;
+        isWallSliding = false;
+        isWallJumping = false;
 
-        yield return new WaitForSeconds(dashCooldown);
         canDash = true;
+        canWallSlide = true;
+        horizontalInput = 0f;
+        knockbackLockTimer = 0f;
+
+        blockKeyHeld = false;
+        blockHoldActivated = false;
+
+        if (rb != null)
+        {
+            rb.bodyType = RigidbodyType2D.Dynamic;
+            rb.gravityScale = originalGravity;
+            rb.linearVelocity = Vector2.zero;
+        }
+
+        if (playerCollider != null)
+            playerCollider.enabled = true;
+
+        EnableDashGhostCollision(false);
+
+        if (anim != null)
+        {
+            anim.ResetTrigger("Die");
+            anim.ResetTrigger("Hurt");
+            anim.SetFloat("Speed", 0f);
+            anim.SetBool("isGrounded", true);
+            anim.SetFloat("yVelocity", 0f);
+            anim.SetBool("isWallSliding", false);
+            anim.SetBool("isBlocking", false);
+        }
+
+        isFacingRight = true;
+        transform.localScale = ScaleRight;
+    }
+
+    private void OnDisable()
+    {
+        EnableDashGhostCollision(false);
+    }
+
+    private void OnPlayerDied()
+    {
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+            rb.bodyType = RigidbodyType2D.Kinematic;
+        }
+
+        if (playerCollider != null)
+            playerCollider.enabled = false;
+
+        EnableDashGhostCollision(false);
+    }
+
+    #endregion
+
+    #region === INPUT HANDLING ===
+
+    private void UpdateWallJumpTimer()
+    {
+        if (wallJumpInputLockTimer > 0f)
+            wallJumpInputLockTimer -= Time.deltaTime;
+        else
+            isWallJumping = false;
+    }
+
+    private void HandleInput()
+    {
+        if (!isWallJumping)
+            horizontalInput = Input.GetAxisRaw("Horizontal");
+
+        if (rb == null) return;
+
+        // Jump
+        if (Input.GetButtonDown("Jump"))
+        {
+            if (isGrounded)
+            {
+                rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+                if (anim != null) anim.SetTrigger("Jump");
+            }
+            else if (isWallSliding && canWallSlide)
+            {
+                PerformWallJump();
+            }
+        }
+
+        // Dash
+        if ((Input.GetKeyDown(KeyCode.K) || Input.GetKeyDown(KeyCode.LeftShift)) && canDash && !isDashing)
+            StartCoroutine(DashCoroutine());
+    }
+
+    #endregion
+
+    #region === WALL MECHANICS ===
+
+    private void PerformWallJump()
+    {
+        if (rb == null) return;
+
+        float jumpDirection = -wallDirection;
+
+        isWallSliding = false;
+        rb.gravityScale = originalGravity;
+
+        isWallJumping = true;
+        wallJumpInputLockTimer = wallJumpInputLockTime;
+
+        rb.linearVelocity = new Vector2(jumpDirection * wallJumpHorizontalForce, wallJumpVerticalForce);
+
+        transform.localScale = jumpDirection > 0 ? ScaleRight : ScaleLeft;
+        isFacingRight = jumpDirection > 0;
+
+        if (anim != null) anim.SetTrigger("Jump");
+
+        StartCoroutine(WallJumpCooldownCoroutine());
+    }
+
+    private IEnumerator WallJumpCooldownCoroutine()
+    {
+        canWallSlide = false;
+        yield return wallJumpCooldownWait;
+        canWallSlide = true;
     }
 
     private void CheckWallSlide()
     {
-        // 1. Quét vòng tròn tại vị trí của 2 cục Empty GameObject
-        // Sử dụng world position offset thay vì child transform để tránh bị ảnh hưởng bởi localScale
+        if (!canWallSlide || isWallJumping) return;
+        if (rb == null) return;
+        if (wallCheckLeft == null || wallCheckRight == null) return;
+
         Vector2 rightCheckPos = (Vector2)transform.position + new Vector2(Mathf.Abs(wallCheckRight.localPosition.x), wallCheckRight.localPosition.y);
         Vector2 leftCheckPos = (Vector2)transform.position + new Vector2(-Mathf.Abs(wallCheckLeft.localPosition.x), wallCheckLeft.localPosition.y);
-        
+
         bool isTouchingRight = Physics2D.OverlapCircle(rightCheckPos, wallCheckRadius, wallLayer);
         bool isTouchingLeft = Physics2D.OverlapCircle(leftCheckPos, wallCheckRadius, wallLayer);
 
-        // Xác định hướng tường (dùng giá trị cố định, không phụ thuộc vào localScale)
         if (isTouchingRight) wallDirection = 1;
         else if (isTouchingLeft) wallDirection = -1;
         else wallDirection = 0;
 
-        // Kiểm tra xem người chơi có đang giữ phím hướng vào tường không
         bool isPushingToWall = (isTouchingRight && horizontalInput > 0) || (isTouchingLeft && horizontalInput < 0);
 
-        // 2. Xử lý bám tường - chỉ khi không chạm đất và đang chạm tường
         if (!isGrounded && (isTouchingRight || isTouchingLeft))
         {
             isWallSliding = true;
-            
-            // SNAP VÀO TƯỜNG - Sử dụng Raycast để đẩy nhân vật sát tường
-            SnapToWall();
-            
-            // Nếu đang giữ phím hướng vào tường -> BÁM CHẶT (không rơi)
-            if (isPushingToWall)
-            {
-                isHoldingWall = true;
-                rb.gravityScale = 0f; // Tắt trọng lực
-                rb.linearVelocity = Vector2.zero; // Đứng yên hoàn toàn
-            }
-            else
-            {
-                // Không giữ phím -> TRƯỢT XUỐNG CHẬM
-                isHoldingWall = false;
-                rb.gravityScale = 0f; // Tắt trọng lực để kiểm soát tốc độ rơi thủ công
-                
-                // Chỉ áp dụng vận tốc rơi xuống với tốc độ cố định
-                rb.linearVelocity = new Vector2(0f, -wallSlideSpeed);
-            }
 
-            // 3. Logic lật mặt (Lưng dựa tường) - Sử dụng wallDirection thay vì so sánh position
-            if (wallDirection > 0)
-            {
-                // Tường ở bên PHẢI -> Xoay mặt sang TRÁI (quay lưng vào tường)
-                transform.localScale = new Vector3(-1, 1, 1);
-                isFacingRight = false;
-            }
-            else if (wallDirection < 0)
-            {
-                // Tường ở bên TRÁI -> Xoay mặt sang PHẢI (quay lưng vào tường)
-                transform.localScale = new Vector3(1, 1, 1);
-                isFacingRight = true;
-            }
+            SnapToWall();
+
+            rb.gravityScale = 0f;
+            rb.linearVelocity = isPushingToWall ? Vector2.zero : new Vector2(0f, -wallSlideSpeed);
+
+            transform.localScale = wallDirection > 0 ? ScaleLeft : ScaleRight;
+            isFacingRight = wallDirection < 0;
         }
         else
         {
-            // Không chạm tường hoặc đang chạm đất
             if (isWallSliding)
-            {
-                rb.gravityScale = originalGravity; // Khôi phục trọng lực
-            }
+                rb.gravityScale = originalGravity;
+
             isWallSliding = false;
-            isHoldingWall = false;
         }
     }
 
-    // Hàm snap nhân vật sát vào tường - ĐÃ CẢI THIỆN
     private void SnapToWall()
     {
         if (playerCollider == null) return;
-        
-        // Lấy thông tin collider của nhân vật
+        if (wallDirection == 0) return;
+
         Bounds bounds = playerCollider.bounds;
-        
-        // Raycast từ TÂM của collider (không phải cạnh) để chính xác hơn
         Vector2 rayOrigin = bounds.center;
         Vector2 rayDirection = wallDirection > 0 ? Vector2.right : Vector2.left;
-        
-        // Raycast để tìm tường
+
         RaycastHit2D hit = Physics2D.Raycast(rayOrigin, rayDirection, wallSnapDistance, wallLayer);
-        
-        // Debug để xem raycast có hoạt động không
-        Debug.DrawRay(rayOrigin, rayDirection * wallSnapDistance, hit.collider != null ? Color.green : Color.red);
-        
-        if (hit.collider != null)
+
+        if (hit.collider == null) return;
+
+        float halfWidth = bounds.extents.x;
+        float targetX = wallDirection > 0
+            ? hit.point.x - halfWidth - wallOffset
+            : hit.point.x + halfWidth + wallOffset;
+
+        transform.position = new Vector3(targetX, transform.position.y, transform.position.z);
+    }
+
+    #endregion
+
+    #region === DASH ===
+
+    private IEnumerator DashCoroutine()
+    {
+        if (rb == null) yield break;
+
+        canDash = false;
+        isDashing = true;
+        EnableDashGhostCollision(true);
+
+        if (anim != null) anim.SetTrigger("Dash");
+
+        float savedGravity = rb.gravityScale;
+        rb.gravityScale = 0f;
+        rb.linearVelocity = new Vector2(transform.localScale.x * dashSpeed, 0f);
+
+        yield return dashDurationWait;
+
+        rb.gravityScale = savedGravity;
+        isDashing = false;
+        EnableDashGhostCollision(false);
+
+        yield return dashCooldownWait;
+        canDash = true;
+    }
+
+    private void EnableDashGhostCollision(bool enable)
+    {
+        if (dashIgnoreLayers == 0) return;
+
+        int playerLayer = gameObject.layer;
+
+        for (int layer = 0; layer < 32; layer++)
         {
-            // Tính khoảng cách từ cạnh collider đến tường
-            float halfWidth = bounds.extents.x;
-            float targetX;
-            
-            if (wallDirection > 0)
-            {
-                // Tường bên PHẢI
-                // Vị trí X mới = điểm hit - nửa chiều rộng collider - offset
-                targetX = hit.point.x - halfWidth - wallOffset;
-            }
-            else
-            {
-                // Tường bên TRÁI
-                // Vị trí X mới = điểm hit + nửa chiều rộng collider + offset
-                targetX = hit.point.x + halfWidth + wallOffset;
-            }
-            
-            // Di chuyển nhân vật đến vị trí mới
-            transform.position = new Vector3(targetX, transform.position.y, transform.position.z);
+            if ((dashIgnoreLayers.value & (1 << layer)) == 0)
+                continue;
+
+            Physics2D.IgnoreLayerCollision(playerLayer, layer, enable);
         }
     }
 
-    // Hàm gọi khi nhận sát thương (Các script khác như quái vật sẽ gọi hàm này)
-    public void TakeDamage(int damage)
-    {
-        if (isBlocking) return; // Đỡ đòn thành công
-        if (isDashing) return;  // i-Frame khi đang lướt
+    #endregion
 
-        anim.SetTrigger("Hurt");
-        // Trừ máu ở đây...
-    }
+    #region === HELPERS ===
 
-    // Hàm gọi khi hết máu
-    public void Die()
-    {
-        anim.SetTrigger("Die");
-        this.enabled = false; // Tắt luôn script để không điều khiển được nữa
-    }
-
-    // --- CÁC HÀM HỖ TRỢ ---
     private void Flip()
     {
-        if (isWallSliding) return; // Không lật khi đang trượt tường
+        if (isWallSliding || isWallJumping) return;
 
-        if (isFacingRight && horizontalInput < 0f || !isFacingRight && horizontalInput > 0f)
+        if ((isFacingRight && horizontalInput < 0f) || (!isFacingRight && horizontalInput > 0f))
         {
             isFacingRight = !isFacingRight;
-            Vector3 localScale = transform.localScale;
-            localScale.x *= -1f;
-            transform.localScale = localScale;
+            transform.localScale = isFacingRight ? ScaleRight : ScaleLeft;
         }
     }
-    
+
+    private void UpdateAnimations()
+    {
+        if (anim == null || rb == null) return;
+
+        anim.SetFloat("Speed", Mathf.Abs(horizontalInput));
+        anim.SetBool("isGrounded", isGrounded);
+        anim.SetFloat("yVelocity", rb.linearVelocity.y);
+        anim.SetBool("isWallSliding", isWallSliding);
+        anim.SetBool("isBlocking", isBlocking);
+    }
+
+    #endregion
+
+    #region === GIZMOS ===
+
+#if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
-        // Vẽ Ground Check (Màu đỏ)
         if (groundCheck != null)
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(groundCheck.position, checkRadius);
         }
 
-        // Vẽ Wall Check (Màu xanh dương) - Vẽ ở vị trí cố định không phụ thuộc localScale
         Gizmos.color = Color.blue;
         if (wallCheckRight != null)
         {
-            Vector2 rightCheckPos = (Vector2)transform.position + new Vector2(Mathf.Abs(wallCheckRight.localPosition.x), wallCheckRight.localPosition.y);
-            Gizmos.DrawWireSphere(rightCheckPos, wallCheckRadius);
+            Vector2 rightPos = (Vector2)transform.position + new Vector2(Mathf.Abs(wallCheckRight.localPosition.x), wallCheckRight.localPosition.y);
+            Gizmos.DrawWireSphere(rightPos, wallCheckRadius);
         }
+
         if (wallCheckLeft != null)
         {
-            Vector2 leftCheckPos = (Vector2)transform.position + new Vector2(-Mathf.Abs(wallCheckLeft.localPosition.x), wallCheckLeft.localPosition.y);
-            Gizmos.DrawWireSphere(leftCheckPos, wallCheckRadius);
+            Vector2 leftPos = (Vector2)transform.position + new Vector2(-Mathf.Abs(wallCheckLeft.localPosition.x), wallCheckLeft.localPosition.y);
+            Gizmos.DrawWireSphere(leftPos, wallCheckRadius);
         }
-        
-        // Vẽ raycast snap wall (Màu vàng)
+
         if (playerCollider != null)
         {
             Gizmos.color = Color.yellow;
             Bounds bounds = playerCollider.bounds;
-            // Vẽ ray sang phải
             Gizmos.DrawLine(bounds.center, bounds.center + Vector3.right * wallSnapDistance);
-            // Vẽ ray sang trái
             Gizmos.DrawLine(bounds.center, bounds.center + Vector3.left * wallSnapDistance);
         }
     }
+#endif
 
-
-    private void UpdateAnimations()
-    {
-        anim.SetFloat("Speed", Mathf.Abs(horizontalInput));
-        anim.SetBool("isGrounded", isGrounded);
-        anim.SetFloat("yVelocity", rb.linearVelocity.y);
-        anim.SetBool("isWallSliding", isWallSliding);
-        anim.SetBool("isBlocking", isBlocking); // THÊM: Cập nhật animation block (giữ nút = giữ animation)
-    }
+    #endregion
 }
