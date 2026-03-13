@@ -21,6 +21,10 @@ public class PlayerMovement : MonoBehaviour
     [Header("Knockback")]
     [SerializeField] private float knockbackLockTime = 0.12f;
 
+    [Header("Block / Parry Input")]
+    [Tooltip("Nhấn nhanh rồi thả < ngưỡng này => Parry. Giữ lâu hơn => Block")]
+    [SerializeField] private float blockHoldThreshold = 0.18f;
+
     [Header("Wall Slide")]
     [SerializeField] private Transform wallCheckLeft;
     [SerializeField] private Transform wallCheckRight;
@@ -46,6 +50,7 @@ public class PlayerMovement : MonoBehaviour
     public Animator anim;
     private Collider2D playerCollider;
     private PlayerHealth health;
+    private PlayerAttack attack;
 
     // State
     private float horizontalInput;
@@ -70,6 +75,11 @@ public class PlayerMovement : MonoBehaviour
     private bool isFacingRight = true;
 
     private float knockbackLockTimer;
+
+    // Block/Parry input state
+    private bool blockKeyHeld;
+    private float blockKeyDownTime;
+    private bool blockHoldActivated;
 
     // WaitForSeconds cache
     private WaitForSeconds dashDurationWait;
@@ -97,6 +107,7 @@ public class PlayerMovement : MonoBehaviour
         anim = GetComponent<Animator>();
         playerCollider = GetComponent<Collider2D>();
         health = GetComponent<PlayerHealth>();
+        attack = GetComponent<PlayerAttack>();
 
         if (rb != null)
             originalGravity = rb.gravityScale;
@@ -113,8 +124,7 @@ public class PlayerMovement : MonoBehaviour
         if (knockbackLockTimer > 0f)
             knockbackLockTimer -= Time.deltaTime;
 
-        // Block (giữ nút)
-        isBlocking = Input.GetKey(KeyCode.L) || Input.GetMouseButton(1);
+        UpdateBlockParryInput();
 
         // Chặn input khác khi dash/attack/block
         if (isDashing || isAttacking)
@@ -160,10 +170,66 @@ public class PlayerMovement : MonoBehaviour
 
     #endregion
 
+    #region === BLOCK / PARRY INPUT ===
+
+    private void UpdateBlockParryInput()
+    {
+        bool down = Input.GetKeyDown(KeyCode.L) || Input.GetMouseButtonDown(1);
+        bool held = Input.GetKey(KeyCode.L) || Input.GetMouseButton(1);
+        bool up = Input.GetKeyUp(KeyCode.L) || Input.GetMouseButtonUp(1);
+
+        if (down)
+        {
+            blockKeyHeld = true;
+            blockKeyDownTime = Time.time;
+            blockHoldActivated = false;
+            // Chưa set block ngay, đợi vượt threshold
+        }
+
+        if (blockKeyHeld && held && !blockHoldActivated)
+        {
+            if (Time.time - blockKeyDownTime >= blockHoldThreshold)
+            {
+                blockHoldActivated = true;
+                isBlocking = true;
+            }
+        }
+
+        // Chỉ xử lý "up" nếu đã từng nhận "down" trước đó
+        if (up && blockKeyHeld)
+        {
+            float heldTime = Time.time - blockKeyDownTime;
+
+            // Nếu chưa kích hoạt hold block và thả nhanh => parry
+            if (!blockHoldActivated && heldTime < blockHoldThreshold)
+            {
+                if (attack != null)
+                    attack.RequestParry();
+            }
+
+            // Thả ra luôn tắt block
+            isBlocking = false;
+            blockKeyHeld = false;
+            blockHoldActivated = false;
+            blockKeyDownTime = 0f;
+        }
+
+        // Nếu đang block mà không còn giữ phím (trường hợp mất focus) thì tắt
+        if (isBlocking && !held)
+        {
+            isBlocking = false;
+            blockKeyHeld = false;
+            blockHoldActivated = false;
+        }
+    }
+
+    #endregion
+
     #region === PUBLIC API (for other scripts) ===
 
     public void SetAttacking(bool value) => isAttacking = value;
 
+    // Giữ lại để script khác dùng, nhưng hiện isBlocking được điều khiển bởi input tap/hold
     public void SetBlocking(bool value) => isBlocking = value;
 
     public void ApplyKnockback(Vector2 velocity)
@@ -188,6 +254,9 @@ public class PlayerMovement : MonoBehaviour
         canWallSlide = true;
         horizontalInput = 0f;
         knockbackLockTimer = 0f;
+
+        blockKeyHeld = false;
+        blockHoldActivated = false;
 
         if (rb != null)
         {
@@ -218,11 +287,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnDisable()
     {
-        // Safety: tránh bị kẹt trạng thái ignore collision nếu object bị disable giữa dash
         EnableDashGhostCollision(false);
     }
 
-    // Nếu PlayerHealth gửi message OnPlayerDied thì script movement cũng tự khoá vật lý
     private void OnPlayerDied()
     {
         if (rb != null)
@@ -407,7 +474,6 @@ public class PlayerMovement : MonoBehaviour
             if ((dashIgnoreLayers.value & (1 << layer)) == 0)
                 continue;
 
-            // enable=true => ignore collision
             Physics2D.IgnoreLayerCollision(playerLayer, layer, enable);
         }
     }
