@@ -1,19 +1,13 @@
 fileFormatVersion: 2
-guid: 9b47bde27453078409666793ae408119
+guid: f6e948333247c8c4eb8dc71ca4920933
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1631005462470914413
-    second: boss-hurt_1_0
+      213: -370915092257299702
+    second: ball_bullet_0
   - first:
-      213: 4691377988630436890
-    second: boss-hurt_1_1
-  - first:
-      213: -5360695822871000746
-    second: boss-hurt_1_2
-  - first:
-      213: 3176234635907046706
-    second: boss-hurt_1_3
+      213: 1440023870310981439
+    second: ball_bullet_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -60,7 +54,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 64
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -81,7 +75,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 16384
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -122,13 +116,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: boss-hurt_1_0
+      name: ball_bullet_0
       rect:
         serializedVersion: 2
-        x: 179
-        y: 187
-        width: 476
-        height: 330
+        x: 3
+        y: 2
+        width: 43
+        height: 43
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,20 +131,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d61fc41a3de72a610800000000000000
-      internalID: 1631005462470914413
+      spriteID: a032c2450be3adaf0800000000000000
+      internalID: -370915092257299702
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: boss-hurt_1_1
+      name: ball_bullet_1
       rect:
         serializedVersion: 2
-        x: 979
-        y: 187
-        width: 476
-        height: 330
+        x: 52
+        y: 3
+        width: 41
+        height: 41
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -159,52 +153,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a1c5767bc6f1b1140800000000000000
-      internalID: 4691377988630436890
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: boss-hurt_1_2
-      rect:
-        serializedVersion: 2
-        x: 1779
-        y: 187
-        width: 476
-        height: 331
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 6598ad02d8bfa95b0800000000000000
-      internalID: -5360695822871000746
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: boss-hurt_1_3
-      rect:
-        serializedVersion: 2
-        x: 2579
-        y: 187
-        width: 476
-        height: 331
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 23d188ca290441c20800000000000000
-      internalID: 3176234635907046706
+      spriteID: f3f18f9941efbf310800000000000000
+      internalID: 1440023870310981439
       vertices: []
       indices: 
       edges: []
@@ -223,10 +173,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      boss-hurt_1_0: 1631005462470914413
-      boss-hurt_1_1: 4691377988630436890
-      boss-hurt_1_2: -5360695822871000746
-      boss-hurt_1_3: 3176234635907046706
+      ball_bullet_0: -370915092257299702
+      ball_bullet_1: 1440023870310981439
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

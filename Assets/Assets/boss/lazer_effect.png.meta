@@ -1,31 +1,34 @@
 fileFormatVersion: 2
-guid: 5e80bd0c72dea4c4999610bd8d1fc4e0
+guid: 6898a0a803404a544904954cdb1961ee
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7654177175783367497
-    second: boss-idle_0
+      213: 8804266866433032999
+    second: lazer_effect_0
   - first:
-      213: 8902458888150346446
-    second: boss-idle_1
+      213: -3671888041241529514
+    second: lazer_effect_1
   - first:
-      213: -1897634607049503924
-    second: boss-idle_2
+      213: -6729435168710958669
+    second: lazer_effect_2
   - first:
-      213: -154186892709927146
-    second: boss-idle_3
+      213: -1872366928057313286
+    second: lazer_effect_3
   - first:
-      213: 6858164021499262436
-    second: boss-idle_4
+      213: 2500156974824638827
+    second: lazer_effect_4
   - first:
-      213: 1239928695617784277
-    second: boss-idle_5
+      213: -2367767670867041207
+    second: lazer_effect_5
   - first:
-      213: 8719005564931779823
-    second: boss-idle_6
+      213: -166496354452878214
+    second: lazer_effect_6
   - first:
-      213: -6994601683126678223
-    second: boss-idle_7
+      213: 345126945131981924
+    second: lazer_effect_7
+  - first:
+      213: 2126097101963250431
+    second: lazer_effect_8
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -72,7 +75,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 64
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -93,7 +96,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 16384
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -134,13 +137,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: boss-idle_0
+      name: lazer_effect_0
       rect:
         serializedVersion: 2
-        x: 179
-        y: 187
-        width: 476
-        height: 330
+        x: 26
+        y: 185
+        width: 13
+        height: 54
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -149,162 +152,228 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7bc97858966e6c590800000000000000
-      internalID: -7654177175783367497
+      spriteID: 7238b79611a0f2a70800000000000000
+      internalID: 8804266866433032999
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: boss-idle_1
+      name: lazer_effect_1
       rect:
         serializedVersion: 2
-        x: 979
-        y: 187
-        width: 476
-        height: 330
+        x: 333
+        y: 0
+        width: 38
+        height: 240
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: eca68b70133eb8b70800000000000000
-      internalID: 8902458888150346446
+      spriteID: 6533bcee745da0dc0800000000000000
+      internalID: -3671888041241529514
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: boss-idle_2
+      name: lazer_effect_3
       rect:
         serializedVersion: 2
-        x: 1779
-        y: 187
-        width: 476
-        height: 331
+        x: 392
+        y: 0
+        width: 48
+        height: 240
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c4b8355016f3aa5e0800000000000000
-      internalID: -1897634607049503924
+      spriteID: af754fbf2340406e0800000000000000
+      internalID: -1872366928057313286
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: boss-idle_3
+      name: lazer_effect_5
       rect:
         serializedVersion: 2
-        x: 2579
-        y: 187
-        width: 476
-        height: 331
+        x: 457
+        y: 0
+        width: 46
+        height: 240
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 617e00786d73cddf0800000000000000
-      internalID: -154186892709927146
+      spriteID: 944e05b29dff32fd0800000000000000
+      internalID: -2367767670867041207
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: boss-idle_4
+      name: lazer_effect_6
       rect:
         serializedVersion: 2
-        x: 3379
-        y: 187
-        width: 476
-        height: 330
+        x: 520
+        y: 0
+        width: 48
+        height: 240
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4e5f3d867d71d2f50800000000000000
-      internalID: 6858164021499262436
+      spriteID: a7c4070a27c70bdf0800000000000000
+      internalID: -166496354452878214
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: boss-idle_5
+      name: lazer_effect_7
       rect:
         serializedVersion: 2
-        x: 4179
-        y: 187
-        width: 476
-        height: 330
+        x: 583
+        y: 0
+        width: 50
+        height: 240
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5d98c19449c153110800000000000000
-      internalID: 1239928695617784277
+      spriteID: 46ce107c0232ac400800000000000000
+      internalID: 345126945131981924
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: boss-idle_6
+      name: lazer_effect_8
       rect:
         serializedVersion: 2
-        x: 4979
-        y: 187
-        width: 476
-        height: 330
+        x: 648
+        y: 0
+        width: 48
+        height: 240
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: feca964bd51200970800000000000000
-      internalID: 8719005564931779823
+      spriteID: ffac188bc0a618d10800000000000000
+      internalID: 2126097101963250431
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: boss-idle_7
+      name: lazer_effect_9
       rect:
         serializedVersion: 2
-        x: 5779
-        y: 187
-        width: 476
-        height: 330
+        x: 89
+        y: 0
+        width: 13
+        height: 240
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 13d82e304de2eee90800000000000000
-      internalID: -6994601683126678223
+      spriteID: b4c83c4b21ca52445bb14175bee10f9a
+      internalID: -1841026313
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lazer_effect_10
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 0
+        width: 15
+        height: 240
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 864207df8d9ca5f438470701908a1258
+      internalID: -1495862722
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lazer_effect_11
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 0
+        width: 15
+        height: 240
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d48a8e89cdaf08749b317b879aeca4d3
+      internalID: 347766977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lazer_effect_12
+      rect:
+        serializedVersion: 2
+        x: 266
+        y: 0
+        width: 46
+        height: 240
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ce549b743cdd444ca8f87e020f1bd17
+      internalID: 1424768431
       vertices: []
       indices: 
       edges: []
@@ -313,7 +382,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: aab0941487a05944cb814fc62d809792
     internalID: 0
     vertices: []
     indices: 
@@ -323,14 +392,19 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      boss-idle_0: -7654177175783367497
-      boss-idle_1: 8902458888150346446
-      boss-idle_2: -1897634607049503924
-      boss-idle_3: -154186892709927146
-      boss-idle_4: 6858164021499262436
-      boss-idle_5: 1239928695617784277
-      boss-idle_6: 8719005564931779823
-      boss-idle_7: -6994601683126678223
+      lazer_effect_0: 8804266866433032999
+      lazer_effect_1: -3671888041241529514
+      lazer_effect_10: -1495862722
+      lazer_effect_11: 347766977
+      lazer_effect_12: 1424768431
+      lazer_effect_2: -6729435168710958669
+      lazer_effect_3: -1872366928057313286
+      lazer_effect_4: 2500156974824638827
+      lazer_effect_5: -2367767670867041207
+      lazer_effect_6: -166496354452878214
+      lazer_effect_7: 345126945131981924
+      lazer_effect_8: 2126097101963250431
+      lazer_effect_9: -1841026313
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

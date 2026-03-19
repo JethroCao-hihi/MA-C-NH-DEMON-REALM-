@@ -26,6 +26,7 @@ public class BossAI : Enemy
         speed = 0f; 
     }
 
+
     void Update()
     {
         // 1. Logic Chết
