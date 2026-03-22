@@ -1,0 +1,1264 @@
+fileFormatVersion: 2
+guid: cdb5151bcae282747b35edbf7e272313
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -6694884702593709390
+    second: wave_effectt_0
+  - first:
+      213: 3137235177011577700
+    second: wave_effectt_1
+  - first:
+      213: 3191594424611953157
+    second: wave_effectt_2
+  - first:
+      213: -9150907387383023464
+    second: wave_effectt_3
+  - first:
+      213: 6241095656189449835
+    second: wave_effectt_4
+  - first:
+      213: -5837162730842879426
+    second: wave_effectt_5
+  - first:
+      213: 304418658822272618
+    second: wave_effectt_6
+  - first:
+      213: 5360505997027915337
+    second: wave_effectt_7
+  - first:
+      213: -8170924002882968537
+    second: wave_effectt_8
+  - first:
+      213: -5964780991949016614
+    second: wave_effectt_9
+  - first:
+      213: -3196964862386056701
+    second: wave_effectt_10
+  - first:
+      213: -6233932068304832503
+    second: wave_effectt_11
+  - first:
+      213: 8143971701727373683
+    second: wave_effectt_12
+  - first:
+      213: 2943354668988256034
+    second: wave_effectt_13
+  - first:
+      213: -2634466989324474199
+    second: wave_effectt_14
+  - first:
+      213: -3780694126764837561
+    second: wave_effectt_15
+  - first:
+      213: 7512922532434675561
+    second: wave_effectt_16
+  - first:
+      213: 6178484999979124454
+    second: wave_effectt_17
+  - first:
+      213: -6800494075384203954
+    second: wave_effectt_18
+  - first:
+      213: 7747463634280959263
+    second: wave_effectt_19
+  - first:
+      213: -3094908665152094127
+    second: wave_effectt_20
+  - first:
+      213: 3240509812921484926
+    second: wave_effectt_21
+  - first:
+      213: 3263102736064931572
+    second: wave_effectt_22
+  - first:
+      213: 2468526147641230787
+    second: wave_effectt_23
+  - first:
+      213: 2633191553978462974
+    second: wave_effectt_24
+  - first:
+      213: -4573369786651102508
+    second: wave_effectt_25
+  - first:
+      213: -8485139058361760701
+    second: wave_effectt_26
+  - first:
+      213: 38715056660681051
+    second: wave_effectt_27
+  - first:
+      213: -3969285204285906362
+    second: wave_effectt_28
+  - first:
+      213: 5862640609423971463
+    second: wave_effectt_29
+  - first:
+      213: 5545734114251856870
+    second: wave_effectt_30
+  - first:
+      213: 237730613927593120
+    second: wave_effectt_31
+  - first:
+      213: 2874595550948775432
+    second: wave_effectt_32
+  - first:
+      213: 8884344004191477140
+    second: wave_effectt_33
+  - first:
+      213: -6930021172093383125
+    second: wave_effectt_34
+  - first:
+      213: 6002205682113375382
+    second: wave_effectt_35
+  - first:
+      213: 8117242451706916019
+    second: wave_effectt_36
+  - first:
+      213: 9168414180155593334
+    second: wave_effectt_37
+  - first:
+      213: 3758202279094692293
+    second: wave_effectt_38
+  - first:
+      213: 3343878823190245107
+    second: wave_effectt_39
+  - first:
+      213: -5897042772433070550
+    second: wave_effectt_40
+  - first:
+      213: -8530086018978965024
+    second: wave_effectt_41
+  - first:
+      213: -4780666055200503988
+    second: wave_effectt_42
+  - first:
+      213: 8133792313908864465
+    second: wave_effectt_43
+  - first:
+      213: -2526353737614984662
+    second: wave_effectt_44
+  - first:
+      213: -1465225586772305717
+    second: wave_effectt_45
+  - first:
+      213: 2543798873731565331
+    second: wave_effectt_46
+  - first:
+      213: 900679621134501153
+    second: wave_effectt_47
+  - first:
+      213: 7569754945485472021
+    second: wave_effectt_48
+  - first:
+      213: 7391030885941412906
+    second: wave_effectt_49
+  - first:
+      213: 5882913705375268170
+    second: wave_effectt_50
+  - first:
+      213: 6495423160775162454
+    second: wave_effectt_51
+  - first:
+      213: -578262707435706243
+    second: wave_effectt_52
+  - first:
+      213: -4567485890481963582
+    second: wave_effectt_53
+  - first:
+      213: -700972361581796271
+    second: wave_effectt_54
+  - first:
+      213: -6996926021844290797
+    second: wave_effectt_55
+  - first:
+      213: 1815298958700870142
+    second: wave_effectt_56
+  - first:
+      213: 6833404558401657214
+    second: wave_effectt_57
+  - first:
+      213: -1740521800415419169
+    second: wave_effectt_58
+  - first:
+      213: -3936504690360196457
+    second: wave_effectt_59
+  - first:
+      213: -4669402557666774436
+    second: wave_effectt_60
+  - first:
+      213: -9106938043427639947
+    second: wave_effectt_61
+  - first:
+      213: 8499203106493729676
+    second: wave_effectt_62
+  - first:
+      213: -1617200024670005833
+    second: wave_effectt_63
+  - first:
+      213: -4738898318730033263
+    second: wave_effectt_64
+  - first:
+      213: 3479208868265571861
+    second: wave_effectt_65
+  - first:
+      213: -3711237244709204847
+    second: wave_effectt_66
+  - first:
+      213: -8034377693633660505
+    second: wave_effectt_67
+  - first:
+      213: -129794702742528482
+    second: wave_effectt_68
+  - first:
+      213: -131375840217322932
+    second: wave_effectt_69
+  - first:
+      213: -4570488745195105861
+    second: wave_effectt_70
+  - first:
+      213: -8164929975072371206
+    second: wave_effectt_71
+  - first:
+      213: -6735653537894287406
+    second: wave_effectt_72
+  - first:
+      213: -4143375183314530262
+    second: wave_effectt_73
+  - first:
+      213: 1223900263716520027
+    second: wave_effectt_74
+  - first:
+      213: 8720962303571136361
+    second: wave_effectt_75
+  - first:
+      213: 2750232065809373056
+    second: wave_effectt_76
+  - first:
+      213: 6631735943608088983
+    second: wave_effectt_77
+  - first:
+      213: -9010510922703497705
+    second: wave_effectt_78
+  - first:
+      213: -7825846453837287449
+    second: wave_effectt_79
+  - first:
+      213: -6730504010227245963
+    second: wave_effectt_80
+  - first:
+      213: 2299423272202920907
+    second: wave_effectt_81
+  - first:
+      213: -5556710899315704919
+    second: wave_effectt_82
+  - first:
+      213: 4701361015145294339
+    second: wave_effectt_83
+  - first:
+      213: 2021501579749296276
+    second: wave_effectt_84
+  - first:
+      213: -2834051771474838989
+    second: wave_effectt_85
+  - first:
+      213: -2704132573813864191
+    second: wave_effectt_86
+  - first:
+      213: -847689561720410650
+    second: wave_effectt_87
+  - first:
+      213: -7445424818054021973
+    second: wave_effectt_88
+  - first:
+      213: 3610172001638796547
+    second: wave_effectt_89
+  - first:
+      213: 4764995185880396338
+    second: wave_effectt_90
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: wave_effectt_0
+      rect:
+        serializedVersion: 2
+        x: 237
+        y: 0
+        width: 42
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ba84b185ddf613a0800000000000000
+      internalID: -6694884702593709390
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave_effectt_1
+      rect:
+        serializedVersion: 2
+        x: 223
+        y: 31
+        width: 48
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 46382ae85c2b98b20800000000000000
+      internalID: 3137235177011577700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave_effectt_2
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 63
+        width: 33
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 50adc1a2832da4c20800000000000000
+      internalID: 3191594424611953157
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave_effectt_3
+      rect:
+        serializedVersion: 2
+        x: 213
+        y: 95
+        width: 43
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 898798af632710180800000000000000
+      internalID: -9150907387383023464
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave_effectt_4
+      rect:
+        serializedVersion: 2
+        x: 203
+        y: 127
+        width: 42
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b66d76cbe63dc9650800000000000000
+      internalID: 6241095656189449835
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave_effectt_5
+      rect:
+        serializedVersion: 2
+        x: 202
+        y: 159
+        width: 32
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e3a06f34c6b3efea0800000000000000
+      internalID: -5837162730842879426
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave_effectt_6
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 190
+        width: 39
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a663a164823893400800000000000000
+      internalID: 304418658822272618
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave_effectt_7
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 222
+        width: 45
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 94633399dc7546a40800000000000000
+      internalID: 5360505997027915337
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave_effectt_8
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 255
+        width: 28
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 724a27929eb0b9e80800000000000000
+      internalID: -8170924002882968537
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave_effectt_9
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 286
+        width: 40
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad170e36a47d83da0800000000000000
+      internalID: -5964780991949016614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave_effectt_10
+      rect:
+        serializedVersion: 2
+        x: 156
+        y: 319
+        width: 42
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 302d21a556912a3d0800000000000000
+      internalID: -3196964862386056701
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave_effectt_11
+      rect:
+        serializedVersion: 2
+        x: 157
+        y: 350
+        width: 29
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 90836ca00df9c79a0800000000000000
+      internalID: -6233932068304832503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave_effectt_12
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 383
+        width: 37
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3792b463d13350170800000000000000
+      internalID: 8143971701727373683
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave_effectt_13
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 415
+        width: 40
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 22f48051a75e8d820800000000000000
+      internalID: 2943354668988256034
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave_effectt_14
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 446
+        width: 33
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9a862d03b3e707bd0800000000000000
+      internalID: -2634466989324474199
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave_effectt_15
+      rect:
+        serializedVersion: 2
+        x: 121
+        y: 479
+        width: 36
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 745b6c109b6488bc0800000000000000
+      internalID: -3780694126764837561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave_effectt_16
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 511
+        width: 38
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9670cc2fc33434860800000000000000
+      internalID: 7512922532434675561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave_effectt_17
+      rect:
+        serializedVersion: 2
+        x: 108
+        y: 543
+        width: 29
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e6c5d95f536eb550800000000000000
+      internalID: 6178484999979124454
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave_effectt_18
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 575
+        width: 39
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e4573934baacf91a0800000000000000
+      internalID: -6800494075384203954
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave_effectt_19
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 607
+        width: 37
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f1dc297a025848b60800000000000000
+      internalID: 7747463634280959263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave_effectt_20
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 639
+        width: 29
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 150c45177fcac05d0800000000000000
+      internalID: -3094908665152094127
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave_effectt_21
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 670
+        width: 38
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e764a52818a98fc20800000000000000
+      internalID: 3240509812921484926
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave_effectt_22
+      rect:
+        serializedVersion: 2
+        x: 62
+        y: 703
+        width: 38
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f661c856aed84d20800000000000000
+      internalID: 3263102736064931572
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave_effectt_23
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 735
+        width: 30
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c54be4d377f14220800000000000000
+      internalID: 2468526147641230787
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave_effectt_24
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 767
+        width: 36
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef2f17064c9fa8420800000000000000
+      internalID: 2633191553978462974
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave_effectt_25
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 798
+        width: 38
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d23828e8602880c0800000000000000
+      internalID: -4573369786651102508
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave_effectt_26
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 831
+        width: 29
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3440e8c8bfabe3a80800000000000000
+      internalID: -8485139058361760701
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave_effectt_27
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 863
+        width: 37
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b5118bf832b898000800000000000000
+      internalID: 38715056660681051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave_effectt_28
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 895
+        width: 42
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 642235a03244ae8c0800000000000000
+      internalID: -3969285204285906362
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave_effectt_29
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 926
+        width: 28
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 784de7a92984c5150800000000000000
+      internalID: 5862640609423971463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave_effectt_30
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 959
+        width: 35
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6eb5fba5bc766fc40800000000000000
+      internalID: 5545734114251856870
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave_effectt_31
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 991
+        width: 34
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0a4c36bdbb69c4300800000000000000
+      internalID: 237730613927593120
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave_effectt_32
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 1023
+        width: 30
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 806583f5c6d94e720800000000000000
+      internalID: 2874595550948775432
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave_effectt_33
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1054
+        width: 24
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 49d5430fcc78b4b70800000000000000
+      internalID: 8884344004191477140
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave_effectt_34
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 1087
+        width: 12
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b2e0077f57e93df90800000000000000
+      internalID: -6930021172093383125
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 0dcad2285dd4b294791f468b599a06fc
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      wave_effectt_0: -6694884702593709390
+      wave_effectt_1: 3137235177011577700
+      wave_effectt_10: -3196964862386056701
+      wave_effectt_11: -6233932068304832503
+      wave_effectt_12: 8143971701727373683
+      wave_effectt_13: 2943354668988256034
+      wave_effectt_14: -2634466989324474199
+      wave_effectt_15: -3780694126764837561
+      wave_effectt_16: 7512922532434675561
+      wave_effectt_17: 6178484999979124454
+      wave_effectt_18: -6800494075384203954
+      wave_effectt_19: 7747463634280959263
+      wave_effectt_2: 3191594424611953157
+      wave_effectt_20: -3094908665152094127
+      wave_effectt_21: 3240509812921484926
+      wave_effectt_22: 3263102736064931572
+      wave_effectt_23: 2468526147641230787
+      wave_effectt_24: 2633191553978462974
+      wave_effectt_25: -4573369786651102508
+      wave_effectt_26: -8485139058361760701
+      wave_effectt_27: 38715056660681051
+      wave_effectt_28: -3969285204285906362
+      wave_effectt_29: 5862640609423971463
+      wave_effectt_3: -9150907387383023464
+      wave_effectt_30: 5545734114251856870
+      wave_effectt_31: 237730613927593120
+      wave_effectt_32: 2874595550948775432
+      wave_effectt_33: 8884344004191477140
+      wave_effectt_34: -6930021172093383125
+      wave_effectt_35: 6002205682113375382
+      wave_effectt_36: 8117242451706916019
+      wave_effectt_37: 9168414180155593334
+      wave_effectt_38: 3758202279094692293
+      wave_effectt_39: 3343878823190245107
+      wave_effectt_4: 6241095656189449835
+      wave_effectt_40: -5897042772433070550
+      wave_effectt_41: -8530086018978965024
+      wave_effectt_42: -4780666055200503988
+      wave_effectt_43: 8133792313908864465
+      wave_effectt_44: -2526353737614984662
+      wave_effectt_45: -1465225586772305717
+      wave_effectt_46: 2543798873731565331
+      wave_effectt_47: 900679621134501153
+      wave_effectt_48: 7569754945485472021
+      wave_effectt_49: 7391030885941412906
+      wave_effectt_5: -5837162730842879426
+      wave_effectt_50: 5882913705375268170
+      wave_effectt_51: 6495423160775162454
+      wave_effectt_52: -578262707435706243
+      wave_effectt_53: -4567485890481963582
+      wave_effectt_54: -700972361581796271
+      wave_effectt_55: -6996926021844290797
+      wave_effectt_56: 1815298958700870142
+      wave_effectt_57: 6833404558401657214
+      wave_effectt_58: -1740521800415419169
+      wave_effectt_59: -3936504690360196457
+      wave_effectt_6: 304418658822272618
+      wave_effectt_60: -4669402557666774436
+      wave_effectt_61: -9106938043427639947
+      wave_effectt_62: 8499203106493729676
+      wave_effectt_63: -1617200024670005833
+      wave_effectt_64: -4738898318730033263
+      wave_effectt_65: 3479208868265571861
+      wave_effectt_66: -3711237244709204847
+      wave_effectt_67: -8034377693633660505
+      wave_effectt_68: -129794702742528482
+      wave_effectt_69: -131375840217322932
+      wave_effectt_7: 5360505997027915337
+      wave_effectt_70: -4570488745195105861
+      wave_effectt_71: -8164929975072371206
+      wave_effectt_72: -6735653537894287406
+      wave_effectt_73: -4143375183314530262
+      wave_effectt_74: 1223900263716520027
+      wave_effectt_75: 8720962303571136361
+      wave_effectt_76: 2750232065809373056
+      wave_effectt_77: 6631735943608088983
+      wave_effectt_78: -9010510922703497705
+      wave_effectt_79: -7825846453837287449
+      wave_effectt_8: -8170924002882968537
+      wave_effectt_80: -6730504010227245963
+      wave_effectt_81: 2299423272202920907
+      wave_effectt_82: -5556710899315704919
+      wave_effectt_83: 4701361015145294339
+      wave_effectt_84: 2021501579749296276
+      wave_effectt_85: -2834051771474838989
+      wave_effectt_86: -2704132573813864191
+      wave_effectt_87: -847689561720410650
+      wave_effectt_88: -7445424818054021973
+      wave_effectt_89: 3610172001638796547
+      wave_effectt_9: -5964780991949016614
+      wave_effectt_90: 4764995185880396338
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
