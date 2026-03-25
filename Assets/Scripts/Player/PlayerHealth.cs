@@ -89,9 +89,32 @@ public class PlayerHealth : MonoBehaviour
     // Quái vật hoặc bẫy sẽ gọi hàm này
     public void TakeDamage(int damage)
     {
+        ApplyDamage(damage, allowDefense: true);
+    }
+
+    public void TakeRawDamage(int damage)
+    {
+        ApplyDamage(damage, allowDefense: false);
+    }
+
+    private void ApplyDamage(int damage, bool allowDefense)
+    {
         if (isDead) return;
         if (damage <= 0) return;
         if (invincibleTimer > 0f) return;
+
+        if (allowDefense)
+        {
+            if (attackScript != null && attackScript.IsParrying)
+            {
+                if (SoundManager.Instance != null)
+                    SoundManager.Instance.PlayPlayerSfx("Parry");
+                return;
+            }
+
+            if (movementScript != null && movementScript.IsBlocking)
+                return;
+        }
 
         currentHealth = Mathf.Max(0, currentHealth - damage);
         invincibleTimer = invincibleTimeAfterHit;
@@ -99,6 +122,8 @@ public class PlayerHealth : MonoBehaviour
         UpdateUI();
 
         if (anim != null) anim.SetTrigger("Hurt");
+        if (SoundManager.Instance != null)
+            SoundManager.Instance.PlayPlayerSfx("Hurt");
 
         ApplyKnockback();
         StartBlink();
@@ -194,12 +219,17 @@ public class PlayerHealth : MonoBehaviour
         StopBlink();
 
         if (anim != null) anim.SetTrigger("Die");
+        if (SoundManager.Instance != null)
+            SoundManager.Instance.PlayPlayerSfx("Die");
 
         // Khóa không cho người chơi di chuyển hay chém nữa
         if (movementScript != null) movementScript.enabled = false;
         if (attackScript != null) attackScript.enabled = false;
 
         SendMessage("OnPlayerDied", SendMessageOptions.DontRequireReceiver);
+
+        if (GameOverMenu.Instance != null)
+            GameOverMenu.Instance.ShowGameOver();
 
         // (Sau này có thể thêm UI Restart ở đây)
     }

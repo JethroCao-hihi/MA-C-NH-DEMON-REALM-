@@ -23,6 +23,10 @@ public class ShieldEnemy : EnemyBase
     [SerializeField] private float attackCooldown = 1.25f;
     [SerializeField] private int attackDamage = 12;
 
+    [Header("SFX")]
+    [SerializeField] private string pushSfxName = "shield_push";
+    [SerializeField] private string shieldDieSfxName = "shield_die";
+
     [Header("Hit Detection (Animation Events)")]
     [SerializeField] private Transform hitPoint;
     [SerializeField] private float hitRadius = 0.9f;
@@ -156,6 +160,8 @@ public class ShieldEnemy : EnemyBase
         isPushing = true;
         nextPushTime = Time.time + pushCooldown;
 
+        PlaySfx(pushSfxName);
+
         if (anim != null && AnimatorHasParam(anim, PushHash, AnimatorControllerParameterType.Trigger))
         {
             anim.ResetTrigger(PushHash);
@@ -242,6 +248,11 @@ public class ShieldEnemy : EnemyBase
         CancelInvoke(nameof(EndAttack));
 
         moveSpeed = baseMoveSpeed;
+    }
+
+    protected override void OnDeath()
+    {
+        PlaySfx(shieldDieSfxName);
     }
 
 #if UNITY_EDITOR

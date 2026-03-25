@@ -26,6 +26,10 @@ public class EnemyBase : MonoBehaviour
     [Tooltip("Seconds to wait after triggering Die before destroying the enemy.")]
     [SerializeField] protected float destroyDelayOnDie = 5f;
 
+    [Header("SFX")]
+    [SerializeField] private string hurtSfxName = "";
+    [SerializeField] private string dieSfxName = "";
+
     [Tooltip("Disable colliders on death so the enemy no longer interacts.")]
     [SerializeField] private bool disableCollidersOnDeath = false;
 
@@ -174,6 +178,7 @@ public class EnemyBase : MonoBehaviour
         if (!lethal)
         {
             TriggerIfExists(HurtHash, hasHurtTrigger);
+            PlaySfx(hurtSfxName);
             OnDamaged(dmg);
         }
         else
@@ -211,6 +216,8 @@ public class EnemyBase : MonoBehaviour
 
         OnDeath();
 
+        PlaySfx(dieSfxName);
+
         Destroy(gameObject, Mathf.Max(0f, destroyDelayOnDie));
     }
 
@@ -223,6 +230,14 @@ public class EnemyBase : MonoBehaviour
     /// Called once when death starts (after animator/physics setup).
     /// </summary>
     protected virtual void OnDeath() { }
+
+    protected void PlaySfx(string sfxName)
+    {
+        if (string.IsNullOrEmpty(sfxName)) return;
+        if (SoundManager.Instance == null) return;
+
+        SoundManager.Instance.PlaySfx(sfxName);
+    }
 
     #region === Helpers ===
 

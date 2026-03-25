@@ -18,6 +18,10 @@ public class BossController : MonoBehaviour
     [SerializeField] private Transform leftWavePoint;
     [SerializeField] private Transform rightWavePoint;
 
+    [Header("SFX")]
+    [SerializeField] private string ballAttackSfxName = "ball_attack";
+    [SerializeField] private string waveAttackSfxName = "wave_attack";
+
     private static readonly int AttackShootHash = Animator.StringToHash("Attack_Shoot");
     private static readonly int AttackSlamHash = Animator.StringToHash("Attack_Slam");
 
@@ -94,6 +98,9 @@ public class BossController : MonoBehaviour
             GameObject bulletGo = Instantiate(ballBulletPrefab, point.position, point.rotation);
             TrySetDirectionIfHasBossBullet(bulletGo, GetInvertedDirectionFromPoint(point));
         }
+
+        if (SoundManager.Instance != null)
+            SoundManager.Instance.PlayBossSfx(ballAttackSfxName);
     }
 
     public void SpawnWave()
@@ -112,5 +119,8 @@ public class BossController : MonoBehaviour
             GameObject right = Instantiate(wavePrefab, rightWavePoint.position, rightWavePoint.rotation);
             TrySetDirectionIfHasBossBullet(right, GetInvertedDirectionFromPoint(rightWavePoint));
         }
+
+        if (SoundManager.Instance != null)
+            SoundManager.Instance.PlayBossSfx(waveAttackSfxName);
     }
 }

@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 2831664064472159976}
   - component: {fileID: 7948797846116007013}
   - component: {fileID: 1013931760327708652}
-  - component: {fileID: 8098067572105778864}
   - component: {fileID: 3843990345559346994}
   m_Layer: 0
   m_Name: Layer5
@@ -115,19 +114,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &8098067572105778864
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 53089957213778477}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f05396a637efcd47931b225caaa84bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
-  parallaxSpeed: 0.05
 --- !u!210 &3843990345559346994
 SortingGroup:
   m_ObjectHideFlags: 0

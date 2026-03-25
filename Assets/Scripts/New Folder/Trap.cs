@@ -73,7 +73,7 @@ public class Trap : MonoBehaviour
         var health = target.GetComponent<PlayerHealth>();
         if (health != null)
         {
-            health.TakeDamage(damageOnTouch);
+            health.TakeRawDamage(damageOnTouch);
             return;
         }
 

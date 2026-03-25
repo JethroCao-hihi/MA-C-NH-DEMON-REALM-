@@ -11,6 +11,10 @@ public class Slime : EnemyBase
     [SerializeField] private int contactDamage = 5;
     [SerializeField] private float contactDamageCooldown = 0.75f;
 
+    [Header("SFX")]
+    [SerializeField] private string attackSfxName = "slime_attack";
+    [SerializeField] private string slimeDieSfxName = "slime_die";
+
     private float nextAttackTime;
     private bool isAttacking;
 
@@ -94,6 +98,8 @@ public class Slime : EnemyBase
         isAttacking = true;
         nextAttackTime = Time.time + attackCooldown;
 
+        PlaySfx(attackSfxName);
+
         if (anim != null && AnimatorHasParam(anim, AttackHash, AnimatorControllerParameterType.Trigger))
         {
             anim.ResetTrigger(AttackHash);
@@ -107,6 +113,11 @@ public class Slime : EnemyBase
     {
         isAttacking = false;
         CancelInvoke(nameof(EndAttack));
+    }
+
+    protected override void OnDeath()
+    {
+        PlaySfx(slimeDieSfxName);
     }
 
     private void TryDamagePlayer(GameObject other)

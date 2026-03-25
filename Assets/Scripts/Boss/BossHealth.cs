@@ -18,6 +18,10 @@ public class BossHealth : MonoBehaviour
     [Header("Death")]
     [SerializeField] private float destroyDelayOnDie = 3f;
 
+    [Header("SFX")]
+    [SerializeField] private string hurtSfxName = "hurt";
+    [SerializeField] private string dieSfxName = "die";
+
     [Header("Animation")]
     [Tooltip("Base trigger name used for hurt. If variants are enabled, this is used as prefix (e.g., Hurt_1, Hurt_2).")]
     [SerializeField] private string hurtTriggerName = "Hurt";
@@ -78,6 +82,8 @@ public class BossHealth : MonoBehaviour
         if (Time.time >= nextHurtAllowedTime)
         {
             Trigger(GetHurtTriggerToPlay());
+            if (SoundManager.Instance != null)
+                SoundManager.Instance.PlayBossSfx(hurtSfxName);
             nextHurtAllowedTime = Time.time + Mathf.Max(0f, hurtCooldown);
         }
     }
@@ -145,6 +151,9 @@ public class BossHealth : MonoBehaviour
         isDead = true;
 
         Trigger(dieTriggerName);
+
+        if (SoundManager.Instance != null)
+            SoundManager.Instance.PlayBossSfx(dieSfxName);
 
         // Stop boss logic if present
         var controller = GetComponent<BossController>();

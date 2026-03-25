@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
 public class PlayerRespawn : MonoBehaviour
 {
     #region === VARIABLES ===
@@ -17,6 +20,10 @@ public class PlayerRespawn : MonoBehaviour
     private PlayerHealth health; // Để gọi hàm trừ máu nếu cần
     private PlayerMovement movement;
 
+    private static bool hasSavedCheckpoint;
+    private static string savedSceneName;
+    private static Vector2 savedCheckpoint;
+
     #endregion
 
     #region === UNITY CALLBACKS ===
@@ -30,8 +37,20 @@ public class PlayerRespawn : MonoBehaviour
 
     private void Start()
     {
-        // Lấy vị trí lúc mới vào game làm Checkpoint mặc định ban đầu
-        currentCheckpoint = transform.position;
+        string activeScene = SceneManager.GetActiveScene().name;
+
+        if (hasSavedCheckpoint && string.Equals(savedSceneName, activeScene, System.StringComparison.Ordinal))
+        {
+            currentCheckpoint = savedCheckpoint;
+            transform.position = currentCheckpoint;
+            if (rb != null)
+                rb.linearVelocity = Vector2.zero;
+        }
+        else
+        {
+            // Lấy vị trí lúc mới vào game làm Checkpoint mặc định ban đầu
+            currentCheckpoint = transform.position;
+        }
     }
 
     #endregion
@@ -42,7 +61,17 @@ public class PlayerRespawn : MonoBehaviour
     public void UpdateCheckpoint(Vector2 newPos)
     {
         currentCheckpoint = newPos;
+        hasSavedCheckpoint = true;
+        savedSceneName = SceneManager.GetActiveScene().name;
+        savedCheckpoint = newPos;
         Debug.Log("[PlayerRespawn] Đã lưu Checkpoint mới tại: " + currentCheckpoint);
+    }
+
+    public static void ClearSavedCheckpoint()
+    {
+        hasSavedCheckpoint = false;
+        savedSceneName = string.Empty;
+        savedCheckpoint = Vector2.zero;
     }
 
     // Hàm này dùng để kéo Player về Checkpoint (Script DeadZone sẽ gọi hàm này)

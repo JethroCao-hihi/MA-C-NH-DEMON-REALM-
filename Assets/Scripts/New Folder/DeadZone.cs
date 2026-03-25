@@ -14,7 +14,7 @@ public class DeadZone : MonoBehaviour
         var heath = collision.GetComponent<PlayerHealth>();
         if (heath != null)
         {
-            heath.TakeDamage(damage);
+            heath.TakeRawDamage(damage);
         }
 
         var respawnScript = collision.GetComponent<PlayerRespawn>();

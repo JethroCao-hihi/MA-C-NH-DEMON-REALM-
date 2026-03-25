@@ -14,6 +14,8 @@ public class BugEnemy : EnemyBase
     [Header("Bug - Attack")]
     [SerializeField] private float attackCooldown = 1.2f;
     [SerializeField] private int attackDamage = 10;
+    [SerializeField] private string attackSfxName = "bug_attack";
+    [SerializeField] private string bugDieSfxName = "bug_die";
     [Tooltip("Point used for hit detection when dealing damage (Animation Event).")]
     [SerializeField] private Transform attackPoint;
     [SerializeField] private float attackRadius = 0.8f;
@@ -109,6 +111,8 @@ public class BugEnemy : EnemyBase
         isAttacking = true;
         nextAttackTime = Time.time + attackCooldown;
 
+        PlaySfx(attackSfxName);
+
         if (anim != null && AnimatorHasParam(anim, AttackHash, AnimatorControllerParameterType.Trigger))
         {
             anim.ResetTrigger(AttackHash);
@@ -136,6 +140,11 @@ public class BugEnemy : EnemyBase
     {
         isAttacking = false;
         CancelInvoke(nameof(EndAttack));
+    }
+
+    protected override void OnDeath()
+    {
+        PlaySfx(bugDieSfxName);
     }
 
 #if UNITY_EDITOR

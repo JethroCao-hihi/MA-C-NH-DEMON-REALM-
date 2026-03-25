@@ -145,7 +145,11 @@ public class PlayerAttack : MonoBehaviour
         };
 
         if (canFire)
+        {
             anim.SetTrigger(triggerToFire);
+            if (SoundManager.Instance != null)
+                SoundManager.Instance.PlayPlayerSfx("Attack");
+        }
 
         attackIndex++;
         if (attackIndex > 3) attackIndex = 1;
@@ -163,6 +167,8 @@ public class PlayerAttack : MonoBehaviour
         {
             anim.ResetTrigger(attackAirTriggerHash);
             anim.SetTrigger(attackAirTriggerHash);
+            if (SoundManager.Instance != null)
+                SoundManager.Instance.PlayPlayerSfx("AttackAir");
         }
 
         DealDamage();
@@ -178,6 +184,8 @@ public class PlayerAttack : MonoBehaviour
         {
             anim.ResetTrigger(parryTriggerHash);
             anim.SetTrigger(parryTriggerHash);
+            if (SoundManager.Instance != null)
+                SoundManager.Instance.PlayPlayerSfx("Parry");
         }
 
         // Có thể dùng bool để transition nếu animator cần

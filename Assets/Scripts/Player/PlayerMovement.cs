@@ -330,6 +330,8 @@ public class PlayerMovement : MonoBehaviour
             {
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
                 if (anim != null) anim.SetTrigger("Jump");
+                if (SoundManager.Instance != null)
+                    SoundManager.Instance.PlayPlayerSfx("Jump");
             }
             else if (isWallSliding && canWallSlide)
             {
@@ -364,6 +366,8 @@ public class PlayerMovement : MonoBehaviour
         isFacingRight = jumpDirection > 0;
 
         if (anim != null) anim.SetTrigger("Jump");
+        if (SoundManager.Instance != null)
+            SoundManager.Instance.PlayPlayerSfx("Jump");
 
         StartCoroutine(WallJumpCooldownCoroutine());
     }
@@ -448,6 +452,8 @@ public class PlayerMovement : MonoBehaviour
         EnableDashGhostCollision(true);
 
         if (anim != null) anim.SetTrigger("Dash");
+        if (SoundManager.Instance != null)
+            SoundManager.Instance.PlayPlayerSfx("Dash");
 
         float savedGravity = rb.gravityScale;
         rb.gravityScale = 0f;
