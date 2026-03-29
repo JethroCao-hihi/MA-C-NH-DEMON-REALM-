@@ -1,0 +1,502 @@
+fileFormatVersion: 2
+guid: 13a1cc87745969b4cacf4e11d435baf9
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 6901324627722712789
+    second: Sprite_Barryt_0
+  - first:
+      213: 2062629194463546626
+    second: Sprite_Barryt_1
+  - first:
+      213: 4860469339558772877
+    second: Sprite_Barryt_2
+  - first:
+      213: 2929511235748323033
+    second: Sprite_Barryt_3
+  - first:
+      213: -4775591909014355476
+    second: Sprite_Barryt_4
+  - first:
+      213: -7897588783518110208
+    second: Sprite_Barryt_5
+  - first:
+      213: 73922845831082128
+    second: Sprite_Barryt_6
+  - first:
+      213: -6477219448352398855
+    second: Sprite_Barryt_7
+  - first:
+      213: 5027113088516244417
+    second: Sprite_Barryt_8
+  - first:
+      213: -8350200438265992414
+    second: Sprite_Barryt_9
+  - first:
+      213: -7706912749679883351
+    second: Sprite_Barryt_10
+  - first:
+      213: -8529368091103714905
+    second: Sprite_Barryt_11
+  - first:
+      213: -8442993882568294335
+    second: Sprite_Barryt_12
+  - first:
+      213: 3770960667184024463
+    second: Sprite_Barryt_13
+  - first:
+      213: -172752399675752885
+    second: Sprite_Barryt_14
+  - first:
+      213: 3941864194851644531
+    second: Sprite_Barryt_15
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Sprite_Barryt_0
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 15
+        width: 28
+        height: 39
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d631132f2e66cf50800000000000000
+      internalID: 6901324627722712789
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite_Barryt_1
+      rect:
+        serializedVersion: 2
+        x: 141
+        y: 15
+        width: 26
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20d8957f25eef9c10800000000000000
+      internalID: 2062629194463546626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite_Barryt_2
+      rect:
+        serializedVersion: 2
+        x: 239
+        y: 15
+        width: 25
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d80041acc1bd37340800000000000000
+      internalID: 4860469339558772877
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite_Barryt_3
+      rect:
+        serializedVersion: 2
+        x: 335
+        y: 15
+        width: 21
+        height: 40
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9de5b4c92f6b7a820800000000000000
+      internalID: 2929511235748323033
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite_Barryt_4
+      rect:
+        serializedVersion: 2
+        x: 431
+        y: 15
+        width: 20
+        height: 40
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce148fef570b9bdb0800000000000000
+      internalID: -4775591909014355476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite_Barryt_5
+      rect:
+        serializedVersion: 2
+        x: 527
+        y: 15
+        width: 19
+        height: 40
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00e2b4838d0266290800000000000000
+      internalID: -7897588783518110208
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite_Barryt_6
+      rect:
+        serializedVersion: 2
+        x: 617
+        y: 15
+        width: 25
+        height: 40
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0903c86cf60a60100800000000000000
+      internalID: 73922845831082128
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite_Barryt_7
+      rect:
+        serializedVersion: 2
+        x: 1103
+        y: 15
+        width: 33
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f124b0ca3b4c16a0800000000000000
+      internalID: -6477219448352398855
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite_Barryt_8
+      rect:
+        serializedVersion: 2
+        x: 1199
+        y: 15
+        width: 31
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c34abe18b4e3c540800000000000000
+      internalID: 5027113088516244417
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite_Barryt_10
+      rect:
+        serializedVersion: 2
+        x: 1295
+        y: 15
+        width: 30
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9abc668efab8b0590800000000000000
+      internalID: -7706912749679883351
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite_Barryt_11
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 15
+        width: 42
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7a1263369e891a980800000000000000
+      internalID: -8529368091103714905
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite_Barryt_13
+      rect:
+        serializedVersion: 2
+        x: 799
+        y: 15
+        width: 35
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f8b49755fb4255430800000000000000
+      internalID: 3770960667184024463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite_Barryt_14
+      rect:
+        serializedVersion: 2
+        x: 911
+        y: 15
+        width: 23
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b4efa379b924a9df0800000000000000
+      internalID: -172752399675752885
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite_Barryt_15
+      rect:
+        serializedVersion: 2
+        x: 1007
+        y: 15
+        width: 30
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 374a6fea99054b630800000000000000
+      internalID: 3941864194851644531
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: e993a44d89e86154daeeb173fd59ddf6
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Sprite_Barryt_0: 6901324627722712789
+      Sprite_Barryt_1: 2062629194463546626
+      Sprite_Barryt_10: -7706912749679883351
+      Sprite_Barryt_11: -8529368091103714905
+      Sprite_Barryt_12: -8442993882568294335
+      Sprite_Barryt_13: 3770960667184024463
+      Sprite_Barryt_14: -172752399675752885
+      Sprite_Barryt_15: 3941864194851644531
+      Sprite_Barryt_2: 4860469339558772877
+      Sprite_Barryt_3: 2929511235748323033
+      Sprite_Barryt_4: -4775591909014355476
+      Sprite_Barryt_5: -7897588783518110208
+      Sprite_Barryt_6: 73922845831082128
+      Sprite_Barryt_7: -6477219448352398855
+      Sprite_Barryt_8: 5027113088516244417
+      Sprite_Barryt_9: -8350200438265992414
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
