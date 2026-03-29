@@ -1,0 +1,11 @@
+{
+  "servers": {
+    "unity": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "c:\\Users\\Roboc\\.vscode\\extensions\\gamedevtoi.unity-copilot-mcp-server-0.1.4\\unity-mcp.js"
+      ]
+    }
+  }
+}
