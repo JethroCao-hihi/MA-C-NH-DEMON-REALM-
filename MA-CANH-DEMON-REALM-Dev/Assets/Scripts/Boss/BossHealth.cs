@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -63,6 +64,16 @@ public class BossHealth : MonoBehaviour
     private bool isDying;
     private float nextHurtAllowedTime;
     private HashSet<string> animatorTriggerNames;
+    private Rigidbody2D lockedPlayerRb;
+    private PlayerMovement lockedPlayerMovement;
+    private PlayerAttack lockedPlayerAttack;
+    private bool lockedPlayerMovementEnabled;
+    private bool lockedPlayerAttackEnabled;
+    private RigidbodyType2D lockedPlayerBodyType;
+    private RigidbodyConstraints2D lockedPlayerConstraints;
+    private float lockedPlayerGravityScale;
+    private bool lockedPlayerSimulated;
+    private bool hasLockedPlayerState;
 
     public bool IsDead => isDead;
     public float MaxHealth => maxHealth;
@@ -289,15 +300,7 @@ public class BossHealth : MonoBehaviour
 
     private static bool IsCreditsSkipRequested()
     {
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Escape))
-            return true;
-
-#if ENABLE_INPUT_SYSTEM
-        Keyboard keyboard = Keyboard.current;
-        if (keyboard != null && (keyboard.spaceKey.wasPressedThisFrame || keyboard.escapeKey.wasPressedThisFrame))
-            return true;
-#endif
-
+        // After-credits MUST NOT be skippable - return false always
         return false;
     }
 
@@ -478,6 +481,8 @@ public class BossHealth : MonoBehaviour
 
             bossOutroCutsceneDirector.SetUseTimelineForRuntime(false);
             bossOutroCutsceneDirector.SetRuntimeCameraMovementEnabled(false);
+            bossOutroCutsceneDirector.SetRuntimeLetterboxEnabled(true, 0.12f);
+            bossOutroCutsceneDirector.SetRuntimeVignetteEnabled(true);
             bossOutroCutsceneDirector.ConfigureRuntimeCutscene(
                 "boss_outro",
                 BuildDefaultBossOutroNarrative(),
@@ -515,11 +520,82 @@ public class BossHealth : MonoBehaviour
 
                 yield return WaitForDirectorToStop(bossOutroCutsceneDirector, 3f);
                 Debug.Log("[BossHealth] After-credits: starting black-screen credits roll.");
+                LockPlayerForAfterCredits();
                 yield return PlayBlackScreenCreditsRoll();
+                RestorePlayerAfterCredits();
+
+                // After credits complete, return to Menu
+                Debug.Log("[BossHealth] After-credits complete. Loading Menu scene...");
+                SceneManager.LoadScene("Menu");
             }
         }
 
         Destroy(gameObject);
+    }
+
+    private void LockPlayerForAfterCredits()
+    {
+        if (hasLockedPlayerState)
+            return;
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player == null)
+            return;
+
+        lockedPlayerMovement = player.GetComponent<PlayerMovement>();
+        lockedPlayerAttack = player.GetComponent<PlayerAttack>();
+        lockedPlayerRb = player.GetComponent<Rigidbody2D>();
+
+        if (lockedPlayerMovement != null)
+        {
+            lockedPlayerMovementEnabled = lockedPlayerMovement.enabled;
+            lockedPlayerMovement.enabled = false;
+        }
+
+        if (lockedPlayerAttack != null)
+        {
+            lockedPlayerAttackEnabled = lockedPlayerAttack.enabled;
+            lockedPlayerAttack.enabled = false;
+        }
+
+        if (lockedPlayerRb != null)
+        {
+            lockedPlayerBodyType = lockedPlayerRb.bodyType;
+            lockedPlayerConstraints = lockedPlayerRb.constraints;
+            lockedPlayerGravityScale = lockedPlayerRb.gravityScale;
+            lockedPlayerSimulated = lockedPlayerRb.simulated;
+
+            lockedPlayerRb.linearVelocity = Vector2.zero;
+            lockedPlayerRb.angularVelocity = 0f;
+            lockedPlayerRb.bodyType = RigidbodyType2D.Kinematic;
+            lockedPlayerRb.constraints = RigidbodyConstraints2D.FreezeAll;
+            lockedPlayerRb.gravityScale = 0f;
+            lockedPlayerRb.simulated = true;
+        }
+
+        hasLockedPlayerState = true;
+    }
+
+    private void RestorePlayerAfterCredits()
+    {
+        if (!hasLockedPlayerState)
+            return;
+
+        if (lockedPlayerMovement != null)
+            lockedPlayerMovement.enabled = lockedPlayerMovementEnabled;
+
+        if (lockedPlayerAttack != null)
+            lockedPlayerAttack.enabled = lockedPlayerAttackEnabled;
+
+        if (lockedPlayerRb != null)
+        {
+            lockedPlayerRb.bodyType = lockedPlayerBodyType;
+            lockedPlayerRb.constraints = lockedPlayerConstraints;
+            lockedPlayerRb.gravityScale = lockedPlayerGravityScale;
+            lockedPlayerRb.simulated = lockedPlayerSimulated;
+        }
+
+        hasLockedPlayerState = false;
     }
 
     private IEnumerator WaitForDirectorToStop(CutsceneDirector director, float timeout)

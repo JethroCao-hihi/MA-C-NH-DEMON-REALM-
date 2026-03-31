@@ -592,6 +592,11 @@ MonoBehaviour:
   - "C\u1EA3m \u01A1n b\u1EA1n \u0111\xE3 b\u01B0\u1EDBc qua Ma C\u1EA3nh."
   bossOutroTimeout: 20
   afterCreditsTimeout: 30
+  afterCreditsStaticHoldDuration: 1.2
+  afterCreditsScrollDurationRatio: 0.65
+  afterCreditsSpeedMultiplier: 1
+  afterCreditsTopStartOffset: -40
+  afterCreditsBottomPadding: 200
   hurtSfxName: hurt
   dieSfxName: die
   hurtTriggerName: Hurt
@@ -3071,6 +3076,10 @@ PrefabInstance:
     - target: {fileID: 271683339600482379, guid: a7d05c058c880bb4a86f3413962c9a89, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 1622715165210503121, guid: a7d05c058c880bb4a86f3413962c9a89, type: 3}
+      propertyPath: attackDamage
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5050788378663968003, guid: a7d05c058c880bb4a86f3413962c9a89, type: 3}
       propertyPath: m_LocalPosition.x

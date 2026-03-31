@@ -82,8 +82,9 @@ public class CutsceneSetup : MonoBehaviour
             }
 
             // Ensure local cutscene components exist under existing hierarchy
-            if (existingCutsceneUI.GetComponent<CutsceneSkipUI>() == null)
-                existingCutsceneUI.AddComponent<CutsceneSkipUI>();
+            CutsceneSkipUI existingSkipUI = existingCutsceneUI.GetComponent<CutsceneSkipUI>();
+            if (existingSkipUI == null)
+                existingSkipUI = existingCutsceneUI.AddComponent<CutsceneSkipUI>();
 
             Transform existingSubtitleContainer = existingCutsceneUI.transform.Find("SubtitleContainer");
             if (existingSubtitleContainer != null)
@@ -103,6 +104,21 @@ public class CutsceneSetup : MonoBehaviour
                         existingSubtitleCanvasGroup,
                         existingSubtitleContainer.gameObject);
                 }
+            }
+
+            // Rebind skip/progress references for intro/outro runtime use.
+            Transform existingSkipContainer = existingCutsceneUI.transform.Find("SkipHintContainer");
+            Transform existingProgressContainer = existingCutsceneUI.transform.Find("ProgressBarContainer");
+            TextMeshProUGUI existingSkipText = existingSkipContainer?.Find("SkipHintText")?.GetComponent<TextMeshProUGUI>();
+            Slider existingProgressSlider = existingProgressContainer?.GetComponent<Slider>();
+            if (existingSkipUI != null && existingSkipContainer != null && existingSkipText != null
+                && existingProgressContainer != null && existingProgressSlider != null)
+            {
+                existingSkipUI.SetupReferences(
+                    existingSkipContainer.gameObject,
+                    existingSkipText,
+                    existingProgressContainer.gameObject,
+                    existingProgressSlider);
             }
 
             enabled = false;

@@ -48,6 +48,7 @@ public class CutsceneSkipUI : MonoBehaviour
     #region === UNITY CALLBACKS ===
     private void OnEnable()
     {
+        TryAutoBindReferences();
         SubscribeToEvents();
     }
 
@@ -114,6 +115,7 @@ public class CutsceneSkipUI : MonoBehaviour
     #region === EVENT HANDLERS ===
     private void OnCutsceneStarted()
     {
+        TryAutoBindReferences();
         isShowing = true;
         hasHandledEnd = false; // Reset guard for new cutscene session
         
@@ -134,6 +136,94 @@ public class CutsceneSkipUI : MonoBehaviour
         }
 
         Debug.Log("[CutsceneSkipUI] Cutscene started - UI shown");
+    }
+
+    private void TryAutoBindReferences()
+    {
+        if (skipHintContainer == null)
+            skipHintContainer = transform.Find("SkipHintContainer")?.gameObject;
+        if (skipHintText == null)
+            skipHintText = transform.Find("SkipHintContainer/SkipHintText")?.GetComponent<TextMeshProUGUI>();
+
+        if (progressBarContainer == null)
+            progressBarContainer = transform.Find("ProgressBarContainer")?.gameObject;
+        if (progressSlider == null && progressBarContainer != null)
+            progressSlider = progressBarContainer.GetComponent<Slider>();
+
+        if (progressBarContainer == null || progressSlider == null)
+            EnsureRuntimeProgressBar();
+    }
+
+    private void EnsureRuntimeProgressBar()
+    {
+        if (progressBarContainer != null && progressSlider != null)
+            return;
+
+        GameObject container = progressBarContainer;
+        if (container == null)
+        {
+            container = new GameObject("ProgressBarContainer");
+            container.transform.SetParent(transform, false);
+            RectTransform rect = container.AddComponent<RectTransform>();
+            rect.anchorMin = new Vector2(0.2f, 0.01f);
+            rect.anchorMax = new Vector2(0.8f, 0.03f);
+            rect.sizeDelta = Vector2.zero;
+        }
+
+        Slider slider = container.GetComponent<Slider>();
+        if (slider == null)
+            slider = container.AddComponent<Slider>();
+        slider.minValue = 0f;
+        slider.maxValue = 1f;
+        slider.interactable = false;
+        slider.transition = Selectable.Transition.None;
+
+        Transform bg = container.transform.Find("Background");
+        if (bg == null)
+        {
+            GameObject bgObj = new GameObject("Background");
+            bgObj.transform.SetParent(container.transform, false);
+            RectTransform bgRect = bgObj.AddComponent<RectTransform>();
+            bgRect.anchorMin = Vector2.zero;
+            bgRect.anchorMax = Vector2.one;
+            bgRect.sizeDelta = Vector2.zero;
+            Image bgImage = bgObj.AddComponent<Image>();
+            bgImage.color = new Color(0.2f, 0.2f, 0.2f, 0.5f);
+            slider.targetGraphic = bgImage;
+        }
+
+        Transform fillArea = container.transform.Find("Fill Area");
+        if (fillArea == null)
+        {
+            GameObject fillAreaObj = new GameObject("Fill Area");
+            fillAreaObj.transform.SetParent(container.transform, false);
+            RectTransform fillAreaRect = fillAreaObj.AddComponent<RectTransform>();
+            fillAreaRect.anchorMin = Vector2.zero;
+            fillAreaRect.anchorMax = Vector2.one;
+            fillAreaRect.sizeDelta = Vector2.zero;
+            fillArea = fillAreaObj.transform;
+        }
+
+        Transform fill = fillArea.Find("Fill");
+        if (fill == null)
+        {
+            GameObject fillObj = new GameObject("Fill");
+            fillObj.transform.SetParent(fillArea, false);
+            RectTransform fillRect = fillObj.AddComponent<RectTransform>();
+            fillRect.anchorMin = Vector2.zero;
+            fillRect.anchorMax = new Vector2(0f, 1f);
+            fillRect.sizeDelta = Vector2.zero;
+            Image fillImage = fillObj.AddComponent<Image>();
+            fillImage.color = new Color(0.85f, 0.2f, 0.2f, 0.9f);
+            slider.fillRect = fillRect;
+        }
+        else if (slider.fillRect == null)
+        {
+            slider.fillRect = fill.GetComponent<RectTransform>();
+        }
+
+        progressBarContainer = container;
+        progressSlider = slider;
     }
 
     /// <summary>

@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
@@ -15,7 +14,7 @@ public class MusicManager : MonoBehaviour
     public static MusicManager Instance;
 
     [Header("References")]
-    [SerializeField] private MusicLirbary musicLirbary;
+    [SerializeField] private MusicLibrary musicLibrary;
     [SerializeField] private AudioSource musicSource;
 
     [Header("Music Keys")]
@@ -57,13 +56,13 @@ public class MusicManager : MonoBehaviour
         musicSource.loop = true;
         musicSource.volume = musicVolume;
 
-        if (musicLirbary == null)
-            musicLirbary = FindObjectOfType<MusicLirbary>();
+        if (musicLibrary == null)
+            musicLibrary = FindObjectOfType<MusicLibrary>();
 
-        CacheFromLibrary(musicLirbary);
+        CacheFromLibrary(musicLibrary);
 
-        if (musicLirbary == null)
-            Debug.LogWarning("MusicManager: MusicLirbary is not assigned.");
+        if (musicLibrary == null)
+            Debug.LogWarning("MusicManager: musicLibrary is not assigned.");
     }
 
     private void OnEnable()
@@ -92,13 +91,13 @@ public class MusicManager : MonoBehaviour
 
     public void PlayMusic(string trackName)
     {
-        if (musicLirbary == null || musicSource == null)
+        if (musicLibrary == null || musicSource == null)
             return;
 
         if (currentTrack == trackName && musicSource.isPlaying)
             return;
 
-        AudioClip clip = musicLirbary.GetAudioClip(trackName);
+        AudioClip clip = musicLibrary.GetAudioClip(trackName);
         if (clip == null)
         {
             Debug.LogWarning("MusicManager: Track not found: " + trackName);
@@ -113,10 +112,10 @@ public class MusicManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (musicLirbary == null)
-            musicLirbary = FindObjectOfType<MusicLirbary>();
+        if (musicLibrary == null)
+            musicLibrary = FindObjectOfType<MusicLibrary>();
 
-        CacheFromLibrary(musicLirbary);
+        CacheFromLibrary(musicLibrary);
 
         if (!autoPlayByScene) return;
         PlayMusicForScene(scene.name);
@@ -161,7 +160,7 @@ public class MusicManager : MonoBehaviour
             musicSource.volume = musicVolume;
     }
 
-    private void CacheFromLibrary(MusicLirbary library)
+    private void CacheFromLibrary(MusicLibrary library)
     {
         if (library == null || library.Tracks == null)
             return;

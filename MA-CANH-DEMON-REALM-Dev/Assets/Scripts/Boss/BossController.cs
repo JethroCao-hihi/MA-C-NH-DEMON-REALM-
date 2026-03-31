@@ -52,6 +52,8 @@ public class BossController : MonoBehaviour
             {
                 bossIntroCutsceneDirector.SetUseTimelineForRuntime(false);
                 bossIntroCutsceneDirector.SetRuntimeCameraMovementEnabled(false);
+                bossIntroCutsceneDirector.SetRuntimeLetterboxEnabled(true, 0.12f);
+                bossIntroCutsceneDirector.SetRuntimeVignetteEnabled(true);
                 bossIntroCutsceneDirector.ConfigureRuntimeCutscene(
                     "boss_intro",
                     BuildDefaultBossIntroNarrative(),

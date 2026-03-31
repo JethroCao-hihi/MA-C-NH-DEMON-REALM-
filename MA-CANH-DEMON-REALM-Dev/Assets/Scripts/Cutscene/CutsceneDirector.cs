@@ -103,6 +103,24 @@ public class CutsceneDirector : MonoBehaviour
         runtimeCameraMovementEnabled = enabled;
     }
 
+    public void SetRuntimeLetterboxEnabled(bool enabled, float size = 0.12f)
+    {
+        enableLetterbox = enabled;
+        if (size > 0f)
+            letterboxSize = Mathf.Clamp(size, 0.05f, 0.25f);
+
+        if (enableLetterbox)
+        {
+            CreateCinematicUI();
+            AdjustUiForLetterbox();
+        }
+    }
+
+    public void SetRuntimeVignetteEnabled(bool enabled)
+    {
+        enableVignette = enabled;
+    }
+
     public void ApplySubtitlesIfEmpty(SubtitleEntry[] entries, bool extendDurationToFit = true)
     {
         if (subtitles != null && subtitles.Length > 0)
@@ -207,6 +225,7 @@ public class CutsceneDirector : MonoBehaviour
     private Coroutine subtitleCoroutine;
     private Coroutine letterboxCoroutine;
     private SubtitleController cachedSubtitleController;
+    private UnityEngine.UI.Slider runtimeProgressSlider;
 
     // Cached player references
     private GameObject playerObject;
@@ -481,8 +500,12 @@ public class CutsceneDirector : MonoBehaviour
         rect.anchoredPosition = Vector2.zero;
         rect.sizeDelta = new Vector2(0, 0); // Start hidden
         
-        // Move to front
-        bar.transform.SetAsLastSibling();
+        // Put bars above fade panel but below subtitle/skip/progress
+        int targetSibling = 1;
+        Transform fadePanelTransform = cutsceneUI.transform.Find("FadePanel");
+        if (fadePanelTransform != null)
+            targetSibling = fadePanelTransform.GetSiblingIndex() + 1;
+        bar.transform.SetSiblingIndex(Mathf.Clamp(targetSibling, 0, cutsceneUI.transform.childCount - 1));
         
         return rect;
     }
@@ -659,6 +682,8 @@ public class CutsceneDirector : MonoBehaviour
                 SkipCutscene();
             }
         }
+
+        UpdateRuntimeProgressBar();
     }
 
     private bool IsSkipKeyHeld()
@@ -766,6 +791,9 @@ public class CutsceneDirector : MonoBehaviour
         if (cutsceneUI != null)
         {
             cutsceneUI.SetActive(true);
+            CreateCinematicUI();
+            EnsureSkipUiBindings();
+            AdjustUiForLetterbox();
 
             Canvas parentCanvas = cutsceneUI.GetComponentInParent<Canvas>(true);
             if (parentCanvas != null)
@@ -1050,6 +1078,7 @@ public class CutsceneDirector : MonoBehaviour
         // Hide cutscene UI
         if (cutsceneUI != null)
             cutsceneUI.SetActive(false);
+        runtimeProgressSlider = null;
 
         // Re-enable player
         EnablePlayerInput();
@@ -1153,6 +1182,204 @@ public class CutsceneDirector : MonoBehaviour
         }
 
         vignetteOverlay.alpha = targetAlpha;
+    }
+
+    private void AdjustUiForLetterbox()
+    {
+        if (cutsceneUI == null || !enableLetterbox)
+            return;
+
+        float safeBottom = Mathf.Clamp01(letterboxSize + 0.02f);
+        float safeTop = Mathf.Clamp01(1f - letterboxSize - 0.02f);
+
+        RectTransform subtitleRect = cutsceneUI.transform.Find("SubtitleContainer") as RectTransform;
+        if (subtitleRect != null)
+        {
+            float minY = Mathf.Max(subtitleRect.anchorMin.y, safeBottom);
+            float maxY = Mathf.Max(subtitleRect.anchorMax.y, Mathf.Min(0.32f, safeBottom + 0.16f));
+            subtitleRect.anchorMin = new Vector2(subtitleRect.anchorMin.x, minY);
+            subtitleRect.anchorMax = new Vector2(subtitleRect.anchorMax.x, maxY);
+        }
+
+        RectTransform skipRect = cutsceneUI.transform.Find("SkipHintContainer") as RectTransform;
+        if (skipRect != null)
+        {
+            float maxY = Mathf.Max(skipRect.anchorMax.y, safeTop);
+            float minY = Mathf.Max(skipRect.anchorMin.y, maxY - 0.06f);
+            skipRect.anchorMin = new Vector2(skipRect.anchorMin.x, minY);
+            skipRect.anchorMax = new Vector2(skipRect.anchorMax.x, maxY);
+        }
+
+        RectTransform progressRect = cutsceneUI.transform.Find("ProgressBarContainer") as RectTransform;
+        if (progressRect != null)
+        {
+            float minY = 0.005f; // lower a bit as requested
+            float maxY = 0.025f;
+            if (enableLetterbox)
+            {
+                minY = Mathf.Max(minY, safeBottom - 0.11f);
+                maxY = Mathf.Max(maxY, minY + 0.02f);
+            }
+
+            progressRect.anchorMin = new Vector2(progressRect.anchorMin.x, minY);
+            progressRect.anchorMax = new Vector2(progressRect.anchorMax.x, maxY);
+            progressRect.SetAsLastSibling();
+        }
+    }
+
+    private void EnsureSkipUiBindings()
+    {
+        if (cutsceneUI == null)
+            return;
+
+        Transform skipContainerTransform = cutsceneUI.transform.Find("SkipHintContainer");
+        Transform progressContainerTransform = cutsceneUI.transform.Find("ProgressBarContainer");
+
+        if (skipContainerTransform == null)
+        {
+            GameObject skipContainer = new GameObject("SkipHintContainer");
+            skipContainer.transform.SetParent(cutsceneUI.transform, false);
+            RectTransform skipRect = skipContainer.AddComponent<RectTransform>();
+            skipRect.anchorMin = new Vector2(0.5f, 0.90f);
+            skipRect.anchorMax = new Vector2(0.5f, 0.96f);
+            skipRect.sizeDelta = new Vector2(400f, 40f);
+
+            GameObject skipTextObj = new GameObject("SkipHintText");
+            skipTextObj.transform.SetParent(skipContainer.transform, false);
+            RectTransform skipTextRect = skipTextObj.AddComponent<RectTransform>();
+            skipTextRect.anchorMin = Vector2.zero;
+            skipTextRect.anchorMax = Vector2.one;
+            skipTextRect.sizeDelta = Vector2.zero;
+
+            TMPro.TextMeshProUGUI skipText = skipTextObj.AddComponent<TMPro.TextMeshProUGUI>();
+            skipText.alignment = TMPro.TextAlignmentOptions.Center;
+            skipText.fontSize = 20f;
+            skipText.color = new Color(1f, 1f, 1f, 0.7f);
+            skipText.text = "Giữ SPACE hoặc ESC để bỏ qua";
+
+            skipContainerTransform = skipContainer.transform;
+        }
+
+        if (progressContainerTransform == null)
+        {
+            GameObject progressContainer = new GameObject("ProgressBarContainer");
+            progressContainer.transform.SetParent(cutsceneUI.transform, false);
+            RectTransform progressRect = progressContainer.AddComponent<RectTransform>();
+            progressRect.anchorMin = new Vector2(0.2f, 0.005f);
+            progressRect.anchorMax = new Vector2(0.8f, 0.025f);
+            progressRect.sizeDelta = Vector2.zero;
+
+            GameObject bgObj = new GameObject("Background");
+            bgObj.transform.SetParent(progressContainer.transform, false);
+            RectTransform bgRect = bgObj.AddComponent<RectTransform>();
+            bgRect.anchorMin = Vector2.zero;
+            bgRect.anchorMax = Vector2.one;
+            bgRect.sizeDelta = Vector2.zero;
+            UnityEngine.UI.Image bgImage = bgObj.AddComponent<UnityEngine.UI.Image>();
+            bgImage.color = new Color(0.2f, 0.2f, 0.2f, 0.5f);
+
+            UnityEngine.UI.Slider slider = progressContainer.AddComponent<UnityEngine.UI.Slider>();
+            slider.minValue = 0f;
+            slider.maxValue = 1f;
+            slider.interactable = false;
+            slider.transition = UnityEngine.UI.Selectable.Transition.None;
+            slider.targetGraphic = bgImage;
+
+            GameObject fillAreaObj = new GameObject("Fill Area");
+            fillAreaObj.transform.SetParent(progressContainer.transform, false);
+            RectTransform fillAreaRect = fillAreaObj.AddComponent<RectTransform>();
+            fillAreaRect.anchorMin = Vector2.zero;
+            fillAreaRect.anchorMax = Vector2.one;
+            fillAreaRect.sizeDelta = Vector2.zero;
+
+            GameObject fillObj = new GameObject("Fill");
+            fillObj.transform.SetParent(fillAreaObj.transform, false);
+            RectTransform fillRect = fillObj.AddComponent<RectTransform>();
+            fillRect.anchorMin = Vector2.zero;
+            fillRect.anchorMax = new Vector2(0f, 1f);
+            fillRect.sizeDelta = Vector2.zero;
+            UnityEngine.UI.Image fillImage = fillObj.AddComponent<UnityEngine.UI.Image>();
+            fillImage.color = new Color(0.85f, 0.2f, 0.2f, 0.9f);
+            slider.fillRect = fillRect;
+
+            progressContainerTransform = progressContainer.transform;
+        }
+
+        CutsceneSkipUI skipUI = cutsceneUI.GetComponent<CutsceneSkipUI>();
+        if (skipUI == null)
+            skipUI = cutsceneUI.AddComponent<CutsceneSkipUI>();
+
+        TMPro.TextMeshProUGUI skipHintText = skipContainerTransform.Find("SkipHintText")?.GetComponent<TMPro.TextMeshProUGUI>();
+        UnityEngine.UI.Slider progressSlider = progressContainerTransform.GetComponent<UnityEngine.UI.Slider>();
+        if (skipHintText != null && progressSlider != null)
+        {
+            runtimeProgressSlider = progressSlider;
+            skipUI.SetupReferences(
+                skipContainerTransform.gameObject,
+                skipHintText,
+                progressContainerTransform.gameObject,
+                progressSlider);
+        }
+    }
+
+    private void UpdateRuntimeProgressBar()
+    {
+        if (runtimeProgressSlider == null)
+            return;
+
+        if (!runtimeProgressSlider.gameObject.activeSelf)
+            runtimeProgressSlider.gameObject.SetActive(true);
+
+        if (useHoldToSkip && IsSkipKeyHeld())
+            runtimeProgressSlider.value = SkipHoldProgress;
+        else
+            runtimeProgressSlider.value = Progress;
+    }
+
+    private void EnsureLetterboxBarsExist()
+    {
+        if (letterboxTop != null && letterboxBottom != null)
+            return; // Already exist
+
+        if (cutsceneUI == null)
+        {
+            Debug.LogWarning("[CutsceneDirector] Cannot create letterbox - cutsceneUI is null!");
+            return;
+        }
+
+        // Create letterbox top
+        GameObject topObj = new GameObject("LetterboxTop");
+        topObj.transform.SetParent(cutsceneUI.transform, false);
+        letterboxTop = topObj.AddComponent<RectTransform>();
+        letterboxTop.anchorMin = new Vector2(0, 1);
+        letterboxTop.anchorMax = new Vector2(1, 1);
+        letterboxTop.pivot = new Vector2(0.5f, 1);
+        letterboxTop.sizeDelta = new Vector2(0, 0);
+        letterboxTop.anchoredPosition = Vector2.zero;
+
+        UnityEngine.UI.Image topImage = topObj.AddComponent<UnityEngine.UI.Image>();
+        topImage.color = Color.black;
+
+        // Create letterbox bottom
+        GameObject bottomObj = new GameObject("LetterboxBottom");
+        bottomObj.transform.SetParent(cutsceneUI.transform, false);
+        letterboxBottom = bottomObj.AddComponent<RectTransform>();
+        letterboxBottom.anchorMin = new Vector2(0, 0);
+        letterboxBottom.anchorMax = new Vector2(1, 0);
+        letterboxBottom.pivot = new Vector2(0.5f, 0);
+        letterboxBottom.sizeDelta = new Vector2(0, 0);
+        letterboxBottom.anchoredPosition = Vector2.zero;
+
+        UnityEngine.UI.Image bottomImage = bottomObj.AddComponent<UnityEngine.UI.Image>();
+        bottomImage.color = Color.black;
+
+        // Put bars above fade panel but below subtitle/skip/progress
+        int targetSibling = 1;
+        Transform fadePanelTransform = cutsceneUI.transform.Find("FadePanel");
+        if (fadePanelTransform != null)
+            targetSibling = fadePanelTransform.GetSiblingIndex() + 1;
+        topObj.transform.SetSiblingIndex(Mathf.Clamp(targetSibling, 0, cutsceneUI.transform.childCount - 1));
+        bottomObj.transform.SetSiblingIndex(Mathf.Clamp(targetSibling + 1, 0, cutsceneUI.transform.childCount - 1));
     }
     #endregion
 

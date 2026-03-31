@@ -1,14 +1,13 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager Instance;
 
     [Header("References")]
-    [SerializeField] private SoundLirbary soundLirbary;
+    [SerializeField] private SoundLibrary soundLibrary;
     [SerializeField] private AudioSource sfxSource;
 
     [Header("Settings")]
@@ -41,10 +40,10 @@ public class SoundManager : MonoBehaviour
         sfxSource.loop = false;
         sfxSource.volume = sfxVolume;
 
-        if (soundLirbary == null)
-            soundLirbary = FindObjectOfType<SoundLirbary>();
+        if (soundLibrary == null)
+            soundLibrary = FindObjectOfType<SoundLibrary>();
 
-        CacheFromLibrary(soundLirbary);
+        CacheFromLibrary(soundLibrary);
     }
 
     private void OnEnable()
@@ -59,10 +58,10 @@ public class SoundManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (soundLirbary == null)
-            soundLirbary = FindObjectOfType<SoundLirbary>();
+        if (soundLibrary == null)
+            soundLibrary = FindObjectOfType<SoundLibrary>();
 
-        CacheFromLibrary(soundLirbary);
+        CacheFromLibrary(soundLibrary);
     }
 
     public void PlaySfx(string sfxName)
@@ -75,10 +74,10 @@ public class SoundManager : MonoBehaviour
 
         if (!sfxCache.TryGetValue(sfxName, out AudioClip clip) || clip == null)
         {
-            if (soundLirbary == null)
-                soundLirbary = FindObjectOfType<SoundLirbary>();
+            if (soundLibrary == null)
+                soundLibrary = FindObjectOfType<SoundLibrary>();
 
-            CacheFromLibrary(soundLirbary);
+            CacheFromLibrary(soundLibrary);
             sfxCache.TryGetValue(sfxName, out clip);
         }
 
@@ -102,7 +101,7 @@ public class SoundManager : MonoBehaviour
             sfxSource.volume = sfxVolume;
     }
 
-    private void CacheFromLibrary(SoundLirbary library)
+    private void CacheFromLibrary(SoundLibrary library)
     {
         if (library == null || library.Tracks == null)
             return;
