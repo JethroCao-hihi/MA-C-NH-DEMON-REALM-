@@ -369,9 +369,6 @@ Assets/
 ├── Editor/                      # Editor-only utilities
 │   ├── CutscenePrefabCreator.cs
 │   ├── CutsceneTimelineSetupTool.cs
-│   └── UnityBridge/             # WebSocket bridge for external tools
-│       ├── UnityBridgeServer.cs
-│       └── UnityCommandHandler.cs
 └── Tests/
     └── EditMode/                # Unit tests
         └── CutsceneStateStoreTests.cs
